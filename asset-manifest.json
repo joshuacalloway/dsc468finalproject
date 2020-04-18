@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/dsc468finalproject/static/css/main.5f361e03.chunk.css",
+    "main.js": "/dsc468finalproject/static/js/main.c17c278e.chunk.js",
+    "main.js.map": "/dsc468finalproject/static/js/main.c17c278e.chunk.js.map",
+    "runtime-main.js": "/dsc468finalproject/static/js/runtime-main.8379a499.js",
+    "runtime-main.js.map": "/dsc468finalproject/static/js/runtime-main.8379a499.js.map",
+    "static/js/2.be7e122f.chunk.js": "/dsc468finalproject/static/js/2.be7e122f.chunk.js",
+    "static/js/2.be7e122f.chunk.js.map": "/dsc468finalproject/static/js/2.be7e122f.chunk.js.map",
+    "index.html": "/dsc468finalproject/index.html",
+    "precache-manifest.247021227ab12f92ed6928f5cced8d9a.js": "/dsc468finalproject/precache-manifest.247021227ab12f92ed6928f5cced8d9a.js",
+    "service-worker.js": "/dsc468finalproject/service-worker.js",
+    "static/css/main.5f361e03.chunk.css.map": "/dsc468finalproject/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.be7e122f.chunk.js.LICENSE.txt": "/dsc468finalproject/static/js/2.be7e122f.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/dsc468finalproject/static/media/logo.5d5d9eef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8379a499.js",
+    "static/js/2.be7e122f.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.c17c278e.chunk.js"
+  ]
+}
