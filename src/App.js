@@ -9,6 +9,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+      <h1>this is new change to demo how to do it</h1>
       <h1>Here's a newbie D3 polygon</h1>
         <SimplePolygon/>
 
