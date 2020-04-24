@@ -64,7 +64,7 @@ const SimplePolygon = () => {
 }
 const StyledDiv = styled.div`    
     polygon { 
-        fill: CadetBlue 
+        fill: green 
     }
 `;
 
