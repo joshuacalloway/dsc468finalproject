@@ -34,7 +34,8 @@ const SimplePolygon = () => {
       var poly = [{"x":10, "y":50},
             {"x":20,"y":20},
             {"x":50,"y":10},
-            {"x":30,"y":30}];
+            {"x":30,"y":30},
+          {"x":40,"y":50}];
       
       
       svg.selectAll("polygon")
@@ -64,7 +65,7 @@ const SimplePolygon = () => {
 }
 const StyledDiv = styled.div`    
     polygon { 
-        fill: CadetBlue 
+        fill: Red 
     }
 `;
 
