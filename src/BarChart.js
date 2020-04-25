@@ -5,7 +5,7 @@ const BarChart = () => {
 
      // Similar to componentDidMount and componentDidUpdate:
     useEffect(() => {
-        const data = [ 2, 4, 2, 6, 8 ]
+        const data = [ 2, 4, 2, 6, 8, 10,12]
         drawBarChart(data)
     });
     const canvasRef = useRef();
