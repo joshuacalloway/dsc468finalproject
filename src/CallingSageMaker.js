@@ -22,7 +22,15 @@ const CallingSageMaker = () => {
 
         fetch(url, requestOptions)
             .then(response => response.json())
-            .then(data => setSageMakerResult(data));
+            .then(data => {
+                const { errorMessage, errorType } = data;
+                if (errorMessage) {
+                    setSageMakerResult(errorMessage)
+                    console.log(errorType)
+                } else {
+                    setSageMakerResult(data)
+                }
+            });
     }
     return <StyledDiv>
         <h1>Calling aws Sagemaker url {url}</h1>
