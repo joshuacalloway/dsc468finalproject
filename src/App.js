@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './logo.svg';
+import Logo from './logo/Logo.js';
 import './App.css';
 import BarChart from './BarChart'
 import SimplePolygon from './SimplePolygon'
@@ -20,7 +20,10 @@ function App() {
 
         <h1>This is example of calling SageMaker</h1>
         <CallingSageMaker/>
-        <img src={logo} className="App-logo" alt="logo" />
+         {/* <img src={logo} className="App-logo" alt="logo" />  */}
+         <h1> this is a logo</h1>
+         <Logo/>
+
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
