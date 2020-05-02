@@ -18,7 +18,7 @@ const SimplePolygon = () => {
         var svg = d3.select(canvasRef.current).append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
-      .append("g")
+        .append("g")
         .attr("transform",
               "translate(" + margin.left + "," + margin.top + ")");
       
@@ -48,9 +48,10 @@ const SimplePolygon = () => {
         });
       
       svg.append("circle")
-        .attr("r", 4)
+        .attr("r", 25)
         .attr("cx", x(point.x))
         .attr("cy", y(point.y))
+        .attr("fill","red")
       
         // add the X Axis
       svg.append("g")
