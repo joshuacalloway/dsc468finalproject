@@ -6,8 +6,8 @@ import SimplePolygon from './SimplePolygon'
 import CallingSageMaker from './CallingSageMaker'
 import USHeatmap from './USHeatmap/USHeatmap'
 import DrawFromGeoJson from './USHeatmap/DrawFromGeoJson'
-import usstates from './USHeatmap/us-states.json';
-
+import geojson from './USHeatmap/us-states.json';
+import covidjson from './USHeatmap/confirmed.json';
 function App() {
 
   return (
@@ -17,7 +17,8 @@ function App() {
         <USHeatmap />
 
         <h1>This is Drawing one country from GeoJSON</h1>
-        <DrawFromGeoJson json={usstates} />
+
+        <DrawFromGeoJson geojson={geojson} covidjson={covidjson}/>
 
         <p/>
         <p/>
