@@ -8,7 +8,15 @@ import USHeatmap from './USHeatmap/USHeatmap'
 import DrawFromGeoJson from './USHeatmap/DrawFromGeoJson'
 import geojson from './USHeatmap/us-states.json';
 import covidjson from './USHeatmap/confirmed.json';
+
+import createSummaryFromConfirmedJson from './USHeatmap/CreateSummaryFromConfirmedJson'
+
+
 function App() {
+
+  const summary = createSummaryFromConfirmedJson(covidjson)
+  
+  console.log("in App, summary is ", summary)
 
   return (
     <div className="App">
