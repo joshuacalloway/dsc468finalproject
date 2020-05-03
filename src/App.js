@@ -4,7 +4,9 @@ import './App.css';
 import BarChart from './BarChart'
 import SimplePolygon from './SimplePolygon'
 import CallingSageMaker from './CallingSageMaker'
-import USHeatmap from './US_Heatmap/USHeatmap'
+import USHeatmap from './USHeatmap/USHeatmap'
+import DrawFromGeoJson from './USHeatmap/DrawFromGeoJson'
+
 function App() {
 
   return (
@@ -25,6 +27,9 @@ function App() {
          <Logo/>
         <h1>This is a US Heat Map</h1>
         <USHeatmap/>
+
+        <h1>This is Drawing one country from GeoJSON</h1>
+        <DrawFromGeoJson/>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
