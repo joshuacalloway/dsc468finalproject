@@ -92,7 +92,9 @@ const DrawFromGeoJson = ({geojson,covidjson}) => {
             .attr("d", path)
             .style("stroke", "black")
             .style("stroke-width", "1")
-            .style("fill", 'white');
+            .style("fill", function (d) {
+                return color(d.properties.value)
+              });
         
         
 
