@@ -6,30 +6,32 @@ import SimplePolygon from './SimplePolygon'
 import CallingSageMaker from './CallingSageMaker'
 import USHeatmap from './USHeatmap/USHeatmap'
 import DrawFromGeoJson from './USHeatmap/DrawFromGeoJson'
+import usstates from './USHeatmap/us-states.json';
 
 function App() {
 
   return (
     <div className="App">
       <header className="App-header">
-      <h1>this is third change</h1>
-      <h1>this is new change to demo how to do it</h1>
-      <h1>Here's a newbie D3 polygon</h1>
-        <SimplePolygon/>
-
-        <h1>Here's a newbie D3 barchart</h1>
-        <BarChart/>
-
-        <h1>This is example of calling SageMaker</h1>
-        <CallingSageMaker/>
-         {/* <img src={logo} className="App-logo" alt="logo" />  */}
-         <h1> this is a logo</h1>
-         <Logo/>
         <h1>This is a US Heat Map</h1>
-        <USHeatmap/>
+        <USHeatmap />
 
         <h1>This is Drawing one country from GeoJSON</h1>
-        <DrawFromGeoJson/>
+        <DrawFromGeoJson json={usstates} />
+
+        <p/>
+        <p/>
+        <h1>Here's a newbie D3 polygon</h1>
+        <SimplePolygon />
+
+        <h1>Here's a newbie D3 barchart</h1>
+        <BarChart />
+
+        <h1>This is example of calling SageMaker</h1>
+        <CallingSageMaker />
+        {/* <img src={logo} className="App-logo" alt="logo" />  */}
+        <h1> this is a logo</h1>
+        <Logo />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
