@@ -4,7 +4,7 @@ import './App.css';
 import BarChart from './BarChart'
 import SimplePolygon from './SimplePolygon'
 import CallingSageMaker from './CallingSageMaker'
-
+import USHeatmap from './US_Heatmap/USHeatmap'
 function App() {
 
   return (
@@ -23,7 +23,8 @@ function App() {
          {/* <img src={logo} className="App-logo" alt="logo" />  */}
          <h1> this is a logo</h1>
          <Logo/>
-
+        <h1>This is a US Heat Map</h1>
+        <USHeatmap/>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
