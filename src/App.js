@@ -8,28 +8,33 @@ import USHeatmap from './USHeatmap/USHeatmap'
 import DrawFromGeoJson from './USHeatmap/DrawFromGeoJson'
 import geojson from './USHeatmap/us-states.json';
 import covidjson from './USHeatmap/confirmed.json';
-
-import createSummaryFromConfirmedJson from './USHeatmap/CreateSummaryFromConfirmedJson'
+import { State } from './State'
+import TexasGeoJson from './USHeatmap/Texas.json'
+import createSummaryFromConfirmedJson from './USHeatmap/createSummaryFromConfirmedJson'
 
 
 function App() {
 
-  const summary = createSummaryFromConfirmedJson(covidjson)
-  
+  const { summary, colorFunction } = createSummaryFromConfirmedJson(covidjson)
+  const texasConfirmed = summary.Texas;
   console.log("in App, summary is ", summary)
+  console.log("in App, colorFunction is ", colorFunction)
 
   return (
     <div className="App">
       <header className="App-header">
+        <p>This is Texas</p>
+        <State geojson={TexasGeoJson} confirmed={texasConfirmed} colorFunction />
+
         <h1>This is a US Heat Map</h1>
         <USHeatmap />
 
         <h1>This is Drawing one country from GeoJSON</h1>
 
-        <DrawFromGeoJson geojson={geojson} covidjson={covidjson}/>
+        <DrawFromGeoJson geojson={geojson} covidjson={covidjson} />
 
-        <p/>
-        <p/>
+        <p />
+        <p />
         <h1>Here's a newbie D3 polygon</h1>
         <SimplePolygon />
 

@@ -1,3 +1,4 @@
+import * as d3 from 'd3'
 
 
 const createSummaryFromConfirmedJson = (confirmedJson) => {
@@ -16,12 +17,18 @@ const createSummaryFromConfirmedJson = (confirmedJson) => {
     }
     delete summary[""];
 
-    // let states = Object.keys(summary);
-    // let values = Object.values(summary);
-    
-    return summary;
+    let values = Object.values(summary);
+    console.log(summary);
 
+    // create a color pallette to set the range of high low cases
+    let lowColor = '#f9f9f9';
+    let highColor = '#bc2a66';
 
+    let minVal = d3.min(values);
+    let maxVal = d3.max(values);
+    let colorFunction = d3.scaleLinear().domain([minVal, maxVal]).range([lowColor, highColor])
+
+    return { summary, colorFunction };
 }
 
 export default createSummaryFromConfirmedJson;
