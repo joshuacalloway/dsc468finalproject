@@ -29,11 +29,11 @@ function App() {
         <State geojson={TexasGeoJson} confirmed={texasConfirmed} colorFunction onClick={onClick}/>
 
         <h1>This is a US Heat Map</h1>
-        <USHeatmap />
+        <USHeatmap summary={summary} onClick={() => { console.log("we clicke USA")}}/>
 
         <h1>This is Drawing one country from GeoJSON</h1>
 
-        <DrawFromGeoJson geojson={geojson} covidjson={covidjson} />
+        <DrawFromGeoJson geojson={geojson} covidjson={covidjson} onClick={() => alert("clicked DrawFrom GeoJson")} />
 
         <h1>This is a Leaflef Map</h1>
         <Map />
