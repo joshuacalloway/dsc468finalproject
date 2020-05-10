@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3'
 
-const State = ({ geojson, confirmed, colorFunction }) => {
+const State = ({ geojson, confirmed, colorFunction, onClick }) => {
 
     const canvasRef = useRef();
 
@@ -40,7 +40,7 @@ const State = ({ geojson, confirmed, colorFunction }) => {
             //     return colorFunction(d.properties.value)
             // });
     }
-    return <div ref={canvasRef}></div>;
+    return <div ref={canvasRef} onClick={onClick}></div>;
 }
 
 export default State
