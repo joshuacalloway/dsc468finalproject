@@ -7,13 +7,13 @@ const DrawFromGeoJson = ({geojson,covidjson, onClick}) => {
 
     // Similar to componentDidMount and componentDidUpdate:
     useEffect(() => {
-        drawMapFromJson(geojson,covidjson, onClick)
+        drawMapFromJson(geojson,covidjson)
         
     });
     const canvasRef = useRef();
 
 
-    const drawMapFromJson = (geojson,covidjson, onClick) => {
+    const drawMapFromJson = (geojson,covidjson) => {
         // get a summary of the number of cases of each state
         let summary={};
         for (let i = 0; i < covidjson.length; i++) {
@@ -154,7 +154,7 @@ const DrawFromGeoJson = ({geojson,covidjson, onClick}) => {
 
         
     }
-    return <div ref={canvasRef} onClick={() => alert('onClick on div tag')}></div>;
+    return <div ref={canvasRef} onClick={onClick}></div>;
 }
  
  
