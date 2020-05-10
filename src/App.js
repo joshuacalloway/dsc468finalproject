@@ -4,26 +4,48 @@ import './App.css';
 import BarChart from './BarChart'
 import SimplePolygon from './SimplePolygon'
 import CallingSageMaker from './CallingSageMaker'
+import USHeatmap from './USHeatmap/USHeatmap'
+import DrawFromGeoJson from './USHeatmap/DrawFromGeoJson'
+import geojson from './USHeatmap/us-states.json';
+import covidjson from './USHeatmap/confirmed.json';
+import { State } from './State'
+import TexasGeoJson from './USHeatmap/Texas.json'
+import createSummaryFromConfirmedJson from './USHeatmap/createSummaryFromConfirmedJson'
+
 
 function App() {
+
+  const { summary, colorFunction } = createSummaryFromConfirmedJson(covidjson)
+  const texasConfirmed = summary.Texas;
+  console.log("in App, summary is ", summary)
+  console.log("in App, colorFunction is ", colorFunction)
 
   return (
     <div className="App">
       <header className="App-header">
-      <h1>this is third change</h1>
-      <h1>this is new change to demo how to do it</h1>
-      <h1>Here's a newbie D3 polygon</h1>
-        <SimplePolygon/>
+        <p>This is Texas</p>
+        <State geojson={TexasGeoJson} confirmed={texasConfirmed} colorFunction />
+
+        <h1>This is a US Heat Map</h1>
+        <USHeatmap />
+
+        <h1>This is Drawing one country from GeoJSON</h1>
+
+        <DrawFromGeoJson geojson={geojson} covidjson={covidjson} />
+
+        <p />
+        <p />
+        <h1>Here's a newbie D3 polygon</h1>
+        <SimplePolygon />
 
         <h1>Here's a newbie D3 barchart</h1>
-        <BarChart/>
+        <BarChart />
 
         <h1>This is example of calling SageMaker</h1>
-        <CallingSageMaker/>
-         {/* <img src={logo} className="App-logo" alt="logo" />  */}
-         <h1> this is a logo</h1>
-         <Logo/>
-
+        <CallingSageMaker />
+        {/* <img src={logo} className="App-logo" alt="logo" />  */}
+        <h1> this is a logo</h1>
+        <Logo />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>

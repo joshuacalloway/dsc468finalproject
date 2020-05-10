@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3'
-
+import styled from 'styled-components';
 const BarChart = () => {
 
      // Similar to componentDidMount and componentDidUpdate:
@@ -28,6 +28,14 @@ const BarChart = () => {
                     .attr("x", (datapoint, iteration) => iteration * 45)
                     .attr("y", (datapoint) => canvasHeight - datapoint * scale)
     }
-    return <div ref={canvasRef}></div>;
+    return <StyledDiv ref={canvasRef}></StyledDiv>;
 }
+
+const StyledDiv = styled.div`    
+    rect { 
+        fill: Red
+    }
+`;
+
+
 export default BarChart
