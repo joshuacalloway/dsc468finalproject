@@ -17,9 +17,9 @@ const createSummaryFromConfirmedJson = (confirmedJson) => {
     }
     delete summary[""];
 
-    let values = Object.values(summary);
+    let values = Object.values(summary); // get the value
     console.log(summary);
-
+    
     // create a color pallette to set the range of high low cases
     let lowColor = '#f9f9f9';
     let highColor = '#bc2a66';
