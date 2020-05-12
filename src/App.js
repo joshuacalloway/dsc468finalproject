@@ -10,6 +10,7 @@ import geojson from './USHeatmap/us-states.json';
 import covidjson from './USHeatmap/confirmed.json';
 import createSummaryFromConfirmedJson from './USHeatmap/createSummaryFromConfirmedJson'
 import Map from './Map'
+import USA from './USA'
 
 function App() {
 
