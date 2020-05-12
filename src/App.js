@@ -11,7 +11,7 @@ import covidjson from './USHeatmap/confirmed.json';
 import { State } from './State'
 import TexasGeoJson from './USHeatmap/Texas.json'
 import createSummaryFromConfirmedJson from './USHeatmap/createSummaryFromConfirmedJson'
-
+import Map from './Map'
 
 function App() {
 
@@ -33,8 +33,9 @@ function App() {
 
         <DrawFromGeoJson geojson={geojson} covidjson={covidjson} />
 
-        <p />
-        <p />
+        <h1>This is a Leaflef Map</h1>
+        <Map />
+        
         <h1>Here's a newbie D3 polygon</h1>
         <SimplePolygon />
 
