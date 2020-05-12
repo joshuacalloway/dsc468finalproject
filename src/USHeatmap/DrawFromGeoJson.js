@@ -3,7 +3,7 @@ import * as d3 from 'd3'
 import styled from 'styled-components';
 // json is GeoJSON --- Geography 
 // geojson is is the united states data and covidjson is the data from api
-const DrawFromGeoJson = ({geojson,covidjson}) => {
+const DrawFromGeoJson = ({geojson,covidjson, onClick}) => {
 
     // Similar to componentDidMount and componentDidUpdate:
     useEffect(() => {
@@ -72,6 +72,7 @@ const DrawFromGeoJson = ({geojson,covidjson}) => {
 
         let svg = d3.select(canvasRef.current)
             .append('svg')
+            .attr("onclick", "alert('clicked svg on DrawFromGeoJson, line 75')")
             .attr('width', width)
             .attr('height', height);
 
@@ -104,6 +105,8 @@ const DrawFromGeoJson = ({geojson,covidjson}) => {
 
     var key = d3.select(canvasRef.current)
         .append("svg")
+        .attr("onclick", "alert('clicked svg on DrawFromGeoJson, line 108')")
+
         .attr("width", w)
         .attr("height", h)
         .attr("class", "legend");
@@ -151,7 +154,7 @@ const DrawFromGeoJson = ({geojson,covidjson}) => {
 
         
     }
-    return <div ref={canvasRef}></div>;
+    return <div ref={canvasRef} onClick={onClick}></div>;
 }
  
  
