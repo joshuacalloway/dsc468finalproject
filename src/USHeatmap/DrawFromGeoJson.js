@@ -30,7 +30,7 @@ const DrawFromGeoJson = ({geojson,covidjson}) => {
         
         let states = Object.keys(summary);
         let values = Object.values(summary);
-        console.log(summary);
+        //console.log(summary);
 
         // create a color pallette to set the range of high low cases
         let lowColor = '#f9f9f9';

@@ -7,18 +7,28 @@ import CallingSageMaker from './CallingSageMaker'
 import USHeatmap from './USHeatmap/USHeatmap'
 import DrawFromGeoJson from './USHeatmap/DrawFromGeoJson'
 import geojson from './USHeatmap/us-states.json';
-import covidjson from './USHeatmap/confirmed.json';
+import covidjson from './Data/confirmed.json';
 import { State } from './State'
 import TexasGeoJson from './USHeatmap/Texas.json'
-import createSummaryFromConfirmedJson from './USHeatmap/createSummaryFromConfirmedJson'
-
+import createSummaryFromJson from './USHeatmap/createSummaryFromJson'
+import createDateSummary from './LineChart/createDateSummary'
+import deathjson from './Data/deaths.json';
+import recoveredjson from './Data/recovered.json';
+import DrawFromLine from './LineChart/DrawFromLine';
 
 function App() {
 
-  const { summary, colorFunction } = createSummaryFromConfirmedJson(covidjson)
+  const { summary, colorFunction } = createSummaryFromJson(covidjson,'confirmed')
   const texasConfirmed = summary.Texas;
-  console.log("in App, summary is ", summary)
-  console.log("in App, colorFunction is ", colorFunction)
+ 
+  const deathDateSummary=createDateSummary(deathjson,'deaths');
+  //console.log('death summary is ',deathDateSummary);
+  const confirmedDateSummary=createDateSummary(covidjson,'confirmed');
+  //console.log('confirmed summary is ',confirmedDateSummary);
+  const recoveredDateSummary=createDateSummary(recoveredjson,'recovered');
+  //console.log('recovered summary is ',recoveredDateSummary);
+
+
 
   return (
     <div className="App">
@@ -32,6 +42,9 @@ function App() {
         <h1>This is Drawing one country from GeoJSON</h1>
 
         <DrawFromGeoJson geojson={geojson} covidjson={covidjson} />
+
+        <h1>This is a Line Chart</h1>
+        <DrawFromLine confirmedDateSummary={confirmedDateSummary} deathsDateSummary={recoveredDateSummary} recoveredDateSummary={deathDateSummary} />
 
         <p />
         <p />
