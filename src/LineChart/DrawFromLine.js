@@ -59,7 +59,7 @@ const DrawFromLine = ({confirmedDateSummary,deathsDateSummary,recoveredDateSumma
             });
         console.log('status is ',status);
         data=status;
-        var width = 1000;
+        var width = 1200;
         var height = 600;
         var margin = 50;
         var duration = 250;
@@ -71,7 +71,7 @@ const DrawFromLine = ({confirmedDateSummary,deathsDateSummary,recoveredDateSumma
         var lineStrokeHover = "2.5px";
         
         var circleOpacity = '0.85';
-        var circleOpacityOnLineHover = "0.25"
+        var circleOpacityOnLineHover = "0.65"
         var circleRadius = 3;
         var circleRadiusHover = 6;
         
@@ -108,7 +108,9 @@ const DrawFromLine = ({confirmedDateSummary,deathsDateSummary,recoveredDateSumma
         lines.selectAll('.line-group')
         .data(data).enter()
         .append('g')
-        .attr('class', 'line-group')  
+        .attr('class', 'line-group')
+        .attr('stroke-width',lineStroke)
+        
         .on("mouseover", function(d, i) {
             svg.append("text")
                 .attr("class", "title-text")
@@ -120,8 +122,10 @@ const DrawFromLine = ({confirmedDateSummary,deathsDateSummary,recoveredDateSumma
             })
         .on("mouseout", function(d) {
             svg.select(".title-text").remove();
-            })
+            }
+            )
         .append('path')
+
         .attr('class', 'line')  
         .attr('d', d => line(d.values))
         .style('stroke', (d, i) => color(i))
@@ -162,7 +166,7 @@ const DrawFromLine = ({confirmedDateSummary,deathsDateSummary,recoveredDateSumma
                 .append("text")
                 .attr("class", "text")
                 .text(`${d.count}`)
-                .attr("x", d => xScale(d.date) + 5)
+                .attr("x", d => xScale(d.date) -45)
                 .attr("y", d => yScale(d.count) - 10);
             })
         .on("mouseout", function(d) {
@@ -192,8 +196,8 @@ const DrawFromLine = ({confirmedDateSummary,deathsDateSummary,recoveredDateSumma
         
         
         /* Add Axis into SVG */
-        var xAxis = d3.axisBottom(xScale).ticks(5);
-        var yAxis = d3.axisLeft(yScale).ticks(5);
+        var xAxis = d3.axisBottom(xScale).ticks(3);
+        var yAxis = d3.axisLeft(yScale).ticks(3);
         
         svg.append("g")
         .attr("class", "x axis")
@@ -224,8 +228,12 @@ const DrawFromLine = ({confirmedDateSummary,deathsDateSummary,recoveredDateSumma
 
         
     }
-    return <div ref={canvasRef}></div>;
+    return <StyledDiv ref={canvasRef}></StyledDiv>;
 }
- 
+const StyledDiv = styled.div`    
+    background-color: None;
+
+    
+`;
  
 export default DrawFromLine

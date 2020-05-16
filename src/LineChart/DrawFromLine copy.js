@@ -117,6 +117,7 @@ const DrawFromLine = ({confirmedDateSummary,deathsDateSummary,recoveredDateSumma
         ]);
 
     let legend = svg.selectAll('g')
+    
     .data(status)
     .enter()
     .append('g')
