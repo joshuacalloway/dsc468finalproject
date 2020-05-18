@@ -64,11 +64,11 @@ const DrawFromLine = ({confirmedDateSummary,deathsDateSummary,recoveredDateSumma
         var margin = 50;
         var duration = 250;
         
-        var lineOpacity = "0.25";
+        var lineOpacity = "0.55";
         var lineOpacityHover = "0.85";
         var otherLinesOpacityHover = "0.1";
-        var lineStroke = "1.5px";
-        var lineStrokeHover = "2.5px";
+        var lineStroke = "2.5px";
+        var lineStrokeHover = "3.5px";
         
         var circleOpacity = '0.85';
         var circleOpacityOnLineHover = "0.65"
@@ -93,8 +93,10 @@ const DrawFromLine = ({confirmedDateSummary,deathsDateSummary,recoveredDateSumma
         var svg = d3.select(canvasRef.current).append("svg")
         .attr("width", (width+margin)+"px")
         .attr("height", (height+margin)+"px")
+        //.style('background-color','white')
         .append('g')
-        .attr("transform", `translate(${margin}, ${margin})`);
+        .attr("transform", `translate(${margin}, ${margin})`)
+        
         
         
         /* Add line into SVG */
@@ -130,6 +132,7 @@ const DrawFromLine = ({confirmedDateSummary,deathsDateSummary,recoveredDateSumma
         .attr('d', d => line(d.values))
         .style('stroke', (d, i) => color(i))
         .style('opacity', lineOpacity)
+        .style('fill','none')
         .on("mouseover", function(d) {
             d3.selectAll('.line')
                             .style('opacity', otherLinesOpacityHover);
@@ -181,6 +184,7 @@ const DrawFromLine = ({confirmedDateSummary,deathsDateSummary,recoveredDateSumma
         .attr("cy", d => yScale(d.count))
         .attr("r", circleRadius)
         .style('opacity', circleOpacity)
+        
         .on("mouseover", function(d) {
                 d3.select(this)
                 .transition()
@@ -196,25 +200,28 @@ const DrawFromLine = ({confirmedDateSummary,deathsDateSummary,recoveredDateSumma
         
         
         /* Add Axis into SVG */
-        var xAxis = d3.axisBottom(xScale).ticks(3);
-        var yAxis = d3.axisLeft(yScale).ticks(3);
+        var xAxis = d3.axisBottom(xScale).ticks(6);
+        var yAxis = d3.axisLeft(yScale).ticks(6);
         
         svg.append("g")
         .attr("class", "x axis")
         .attr("transform", `translate(0, ${height-margin})`)
+        
         .call(xAxis);
         
         svg.append("g")
         .attr("class", "y axis")
         .call(yAxis)
+        
+        
+        
         .append('text')
         .attr("y", 15)
         .attr("transform", "rotate(-90)")
-        .attr("fill", "white")
-        .text("values");
-
         
-      
+        .text("values");
+        
+       
         
 
 
@@ -232,6 +239,7 @@ const DrawFromLine = ({confirmedDateSummary,deathsDateSummary,recoveredDateSumma
 }
 const StyledDiv = styled.div`    
     background-color: None;
+    
 
     
 `;
