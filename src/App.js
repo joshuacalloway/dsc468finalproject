@@ -12,6 +12,7 @@ import { State } from './State'
 import TexasGeoJson from './USHeatmap/Texas.json'
 import createSummaryFromConfirmedJson from './USHeatmap/createSummaryFromConfirmedJson'
 import Map from './Map'
+import HexagonMap from './HexagonMap/index.js';
 
 function App() {
 
@@ -35,6 +36,9 @@ function App() {
 
         <h1>This is a Leaflef Map</h1>
         <Map />
+
+        <h1>This is Hexagon Map</h1>
+        <HexagonMap />
         
         <h1>Here's a newbie D3 polygon</h1>
         <SimplePolygon />
