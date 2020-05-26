@@ -1,16 +1,22 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 import State from './State'
 import json from './us-states.json'
+import stateCodes from './state-codes.json'
 import Switch from 'react-input-switch';
 import styled from 'styled-components';
 
 import * as d3 from 'd3'
 
-import createSummaryFromConfirmedJson from '../USHeatmap/createSummaryFromConfirmedJson'
+const USA = ({ result, onClick }) => {
+    const [resultByState, setResultByState] = useState(null)
 
-const USA = ({ onClick, covidjson }) => {
-    const { summary, colorFunction } = createSummaryFromConfirmedJson(covidjson)
+    useEffect(() => {
+        if (result) {
+            setResultByState( new Map(result.map(i => [i.state, i])))
+        }
+    }, [result])
+
     const canvasRef = useRef();
     const svg = useRef()
     const states = ['Wyoming', 'Washington', 'Alaska', 'Colorado', 'Florida', 'North Carolina', 'South Carolina', 'Virginia', 'New Hampshire', 'Iowa', 'Nebraska', 'Louisiana', 'Delaware', 'Arizona', 'Arkansas', 'Connecticut', 'South Dakota', 'North Dakota', 'Kentucky', 'Michigan', 'Pennsylvania', 'Maine', 'Vermont', 'Massachusetts', 'Maryland', 'Mississippi', 'New Mexico', 'Connecticut', 'Rhode Island', 'West Virginia', 'Wisconsin', 'Puerto Rico', 'District of Columbia', 'Hawaii', 'Nevada', 'Oregon', 'Idaho', 'Ohio', 'Minnesota', 'Utah', 'Montana', 'Minnesota', 'California', 'Texas', 'Illinois', 'Indiana', 'Georgia', 'Alabama', 'Missouri', 'Kansas', 'Tennessee', 'Oklahoma', 'New York']
@@ -31,11 +37,32 @@ const USA = ({ onClick, covidjson }) => {
         return json.features.find(item => item.properties.name == state)
     }
 
+    const findStateCodeByName = (name) => {
+        const found = stateCodes.find(mapping => mapping.name == name)
+        if (found) {
+            return found.abbreviation
+        }
+        return ''
+    }
+
+    const getColorFunction = () => {
+        let lowColor = '#f9f9f9';
+        let highColor = '#bc2a66';
+    
+        let minVal = 0;
+        let maxVal = 500000;
+        let colorFunction = d3.scaleLinear().domain([minVal, maxVal]).range([lowColor, highColor])
+        return colorFunction
+    }
     const drawEachState = (state) => {
         const geojson = findGeoJson(state);
         const name = geojson.properties.name
-
-        return <State tooltipsEnabled={tooltipsEnabled} svg={svg} path={path} name={name} geojson={geojson} confirmed={summary[name]} colorFunction={colorFunction} />
+        const stateCode = findStateCodeByName(name)
+        let confirmed = 0;
+        if (resultByState && resultByState.has(stateCode)) {
+            confirmed = resultByState.get(stateCode).total
+        }
+        return <State tooltipsEnabled={tooltipsEnabled} svg={svg} path={path} name={name} geojson={geojson} confirmed={confirmed} colorFunction={getColorFunction()} />
     }
 
     return (
