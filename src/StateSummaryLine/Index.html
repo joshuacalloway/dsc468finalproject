@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Jiahao's Linechart</title>
+    <style>
+        .bar {
+            fill: steelblue;
+        }
+
+        .bar:hover {
+            fill: brown;
+        }
+        
+    </style>
+
+
+</head>
+
+<body>
+    <h1>Line Chart</h1>
+    <div class="canvas">
+        
+    </div>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    
+    <script src="createSummary.js"></script>
+    <script src="drawLine.js"></script>
+    <script>
+       
+        d3.json('Data/confirmed.json',
+        function(err,json){
+            console.log(json);
+            let data=createStateSummary(json,['Wyoming','Virginia','Tennessee'],"confirmed");
+            console.log(data);
+            
+            
+            
+            d3.select('.canvas').append('div').attr('id','tooltip')
+            .style('position','absolute')
+            .style('background-color','lightgray')
+            .style('padding','5px');
+            drawLine(data)
+        })
+
+
+
+
+       
+
+
+        
+       
+        
+        
+
+        
+
+
+        
+        
+
+        
+
+    </script>
+
+
+
+    </script>
+</body>
+
+</html>

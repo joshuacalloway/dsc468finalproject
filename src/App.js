@@ -15,6 +15,9 @@ import createDateSummary from './LineChart/createDateSummary'
 import deathjson from './Data/deaths.json';
 import recoveredjson from './Data/recovered.json';
 import DrawFromLine from './LineChart/DrawFromLine';
+import createStateSummary from './StateSummaryLine/createStateSummary';
+
+import DrawStateLine from './StateSummaryLine/DrawStateLine';
 
 function App() {
 
@@ -27,7 +30,7 @@ function App() {
   //console.log('confirmed summary is ',confirmedDateSummary);
   const recoveredDateSummary=createDateSummary(recoveredjson,'recovered');
   //console.log('recovered summary is ',recoveredDateSummary);
-
+  const totalStateSummary=createStateSummary(covidjson,['Wyoming','Virginia','Tennessee'],"confirmed");
 
 
   return (
@@ -43,12 +46,15 @@ function App() {
 
         <DrawFromGeoJson geojson={geojson} covidjson={covidjson} />
 
-        <h1>This is a Line Chart</h1>
+        <h1>This is a Status Summary Line Chart</h1>
         <DrawFromLine confirmedDateSummary={confirmedDateSummary} deathsDateSummary={recoveredDateSummary} recoveredDateSummary={deathDateSummary} />
 
-        <p />
-        <p />
+        <h1>This is a State Summary Line chart</h1>
+        <DrawStateLine data={totalStateSummary} />
+        
+        
         <h1>Here's a newbie D3 polygon</h1>
+        
         <SimplePolygon />
 
         <h1>Here's a newbie D3 barchart</h1>
