@@ -50,7 +50,7 @@ const USA = ({ result, onClick }) => {
         let highColor = '#bc2a66';
     
         let minVal = 0;
-        let maxVal = 500000;
+        let maxVal = 5000;
         let colorFunction = d3.scaleLinear().domain([minVal, maxVal]).range([lowColor, highColor])
         return colorFunction
     }
@@ -58,11 +58,11 @@ const USA = ({ result, onClick }) => {
         const geojson = findGeoJson(state);
         const name = geojson.properties.name
         const stateCode = findStateCodeByName(name)
-        let confirmed = 0;
+        let result = { death: 0, positive: 0, recovered: 0 }
         if (resultByState && resultByState.has(stateCode)) {
-            confirmed = resultByState.get(stateCode).total
+            result = resultByState.get(stateCode)
         }
-        return <State tooltipsEnabled={tooltipsEnabled} svg={svg} path={path} name={name} geojson={geojson} confirmed={confirmed} colorFunction={getColorFunction()} />
+        return <State tooltipsEnabled={tooltipsEnabled} result={result} svg={svg} path={path} name={name} geojson={geojson} colorFunction={getColorFunction()} />
     }
 
     return (

@@ -31,7 +31,7 @@ export default React.forwardRef(Tooltip);
 const Container = styled.div`
   opacity: 1;
   border: 1px solid #cccccc;
-  background-color: blue;
+  background-color: white;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   min-width: 7rem;
   position: fixed;
