@@ -15,11 +15,10 @@ import USA from './USA'
 function App() {
 
   const { summary, colorFunction } = createSummaryFromConfirmedJson(covidjson)
-  console.log("in App, summary is ", summary)
-  console.log("in App, colorFunction is ", colorFunction)
+
 
   return (
-    <div className="App">
+    <div id="theApp" className="App">
       <header className="App-header">
         <p>This is USA</p>
         <USA covidjson={covidjson} onClick={() => alert('clicked USA')} />

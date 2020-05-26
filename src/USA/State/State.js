@@ -1,27 +1,42 @@
-import React, { useEffect, useRef } from 'react';
-import * as d3 from 'd3'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Tooltip from './Tooltip';
 
-const State = ({ geojson, confirmed, colorFunction, onClick, svg, path }) => {
+const State = ({ tooltipsEnabled, geojson, confirmed, colorFunction, name, onClick, svg, path }) => {
+    const [tooltipLocation, setTooltipLocation] = useState({ x: 0, y: 0 })
+    const [tooltipVisible, setTooltipVisible] = useState(false)
 
-    const canvasRef = useRef();
-
-    useEffect(() => {
-        drawMapFromJson(geojson, svg, confirmed, colorFunction, path)
-    });
-
-    const drawMapFromJson = (geojson, svg, confirmed, colorRange, path) => {
-     
-     
-        svg.selectAll("g")
-            .data(geojson.features)
-            .enter()
-            .append('path')
-            .attr("d", path)
-            .style("stroke", "black")
-            .style("stroke-width", "1")
-            .style("fill", "red" )
+    const onMouseEnter = (e) => {
+        setTooltipVisible(true)
+        setTooltipLocation({ x: e.pageX, y: e.pageY })
     }
-    return <div ref={canvasRef} onClick={onClick}></div>;
+
+    const onMouseLeave = () => {
+        setTooltipVisible(false);
+        setTooltipLocation({ x: 0, y: 0 })
+    }
+
+    return (
+        <>
+            <StyledPath d={path(geojson)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} colorFunction={colorFunction} confirmed={confirmed}>
+            </StyledPath>
+            <Tooltip name={'Enable tooltips'} tooltipsEnabled={tooltipsEnabled} location={tooltipLocation} isVisible={tooltipVisible}>
+                <div>
+                    <h3>{name}</h3>
+                    <hr/>
+                    <ul>
+                        <li>Confirmed: {confirmed}</li>
+                    </ul>
+                    </div>
+            </Tooltip>
+        </>
+    )
 }
 
 export default State
+
+const StyledPath = styled.path`
+    stroke: green;
+    stroke-width: 1;
+    fill:  ${({ colorFunction, confirmed }) => colorFunction(confirmed)};
+`
