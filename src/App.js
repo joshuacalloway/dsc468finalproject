@@ -1,22 +1,19 @@
 import React from 'react';
 import Logo from './logo/Logo.js';
 import './App.css';
-import BarChart from './BarChart'
-import SimplePolygon from './SimplePolygon'
+
 import CallingSageMaker from './CallingSageMaker'
-import USHeatmap from './USHeatmap/USHeatmap'
-import DrawFromGeoJson from './USHeatmap/DrawFromGeoJson'
+
+
 import covidjson from './Data/confirmed.json';
-import { State } from './State'
-import TexasGeoJson from './USHeatmap/Texas.json'
-import createSummaryFromJson from './USHeatmap/createSummaryFromJson'
+
+
 import createDateSummary from './LineChart/createDateSummary'
 import deathjson from './Data/deaths.json';
 import recoveredjson from './Data/recovered.json';
-import DrawFromLine from './LineChart/DrawFromLine';
-import createStateSummary from './StateSummaryLine/createStateSummary';
+
 import Combined from './combined';
-import DrawStateLine from './StateSummaryLine/DrawStateLine';
+
 import geojson from './Data/us_states_geojson.json';
 
 
@@ -24,27 +21,17 @@ import geojson from './Data/us_states_geojson.json';
 
 function App() {
 
-  const { summary, colorFunction } = createSummaryFromJson(covidjson,'confirmed')
-  const texasConfirmed = summary.Texas;
- 
-  const deathDateSummary=createDateSummary(deathjson,'deaths');
-  //console.log('death summary is ',deathDateSummary);
-  const confirmedDateSummary=createDateSummary(covidjson,'confirmed');
-  //console.log('confirmed summary is ',confirmedDateSummary);
-  const recoveredDateSummary=createDateSummary(recoveredjson,'recovered');
-  //console.log('recovered summary is ',recoveredDateSummary);
-  //const totalStateSummary=createStateSummary(covidjson,['Wyoming','Virginia','Tennessee'],"confirmed");
-
-
+  
   return (
     <div className="App">
       <header className="App-header">
-        <p>This is Texas</p>
-        <State geojson={TexasGeoJson} confirmed={texasConfirmed} colorFunction />
+        
 
 
-        <h1>This is Map and Chart</h1>
-        <Combined geojson={geojson} covidjson={covidjson}></Combined>
+        <h1>This is Map , Chart and scatter plot</h1>
+        <Combined geojson={geojson} covidjson={covidjson} deaths={deathjson} recovered={recoveredjson}></Combined>
+
+        
 
         {/* <h1>This is a US Heat Map</h1>
         <USHeatmap />
@@ -60,12 +47,9 @@ function App() {
         <DrawStateLine data={totalStateSummary} /> */}
         
         
-        <h1>Here's a newbie D3 polygon</h1>
         
-        <SimplePolygon />
 
-        <h1>Here's a newbie D3 barchart</h1>
-        <BarChart />
+        
 
         <h1>This is example of calling SageMaker</h1>
         <CallingSageMaker />
