@@ -6,7 +6,6 @@ import SimplePolygon from './SimplePolygon'
 import CallingSageMaker from './CallingSageMaker'
 import USHeatmap from './USHeatmap/USHeatmap'
 import DrawFromGeoJson from './USHeatmap/DrawFromGeoJson'
-import geojson from './USHeatmap/us-states.json';
 import covidjson from './Data/confirmed.json';
 import { State } from './State'
 import TexasGeoJson from './USHeatmap/Texas.json'
@@ -16,8 +15,12 @@ import deathjson from './Data/deaths.json';
 import recoveredjson from './Data/recovered.json';
 import DrawFromLine from './LineChart/DrawFromLine';
 import createStateSummary from './StateSummaryLine/createStateSummary';
-
+import Combined from './combined';
 import DrawStateLine from './StateSummaryLine/DrawStateLine';
+import geojson from './Data/us_states_geojson.json';
+
+
+
 
 function App() {
 
@@ -30,7 +33,7 @@ function App() {
   //console.log('confirmed summary is ',confirmedDateSummary);
   const recoveredDateSummary=createDateSummary(recoveredjson,'recovered');
   //console.log('recovered summary is ',recoveredDateSummary);
-  const totalStateSummary=createStateSummary(covidjson,['Wyoming','Virginia','Tennessee'],"confirmed");
+  //const totalStateSummary=createStateSummary(covidjson,['Wyoming','Virginia','Tennessee'],"confirmed");
 
 
   return (
@@ -39,7 +42,11 @@ function App() {
         <p>This is Texas</p>
         <State geojson={TexasGeoJson} confirmed={texasConfirmed} colorFunction />
 
-        <h1>This is a US Heat Map</h1>
+
+        <h1>This is Map and Chart</h1>
+        <Combined geojson={geojson} covidjson={covidjson}></Combined>
+
+        {/* <h1>This is a US Heat Map</h1>
         <USHeatmap />
 
         <h1>This is Drawing one country from GeoJSON</h1>
@@ -50,7 +57,7 @@ function App() {
         <DrawFromLine confirmedDateSummary={confirmedDateSummary} deathsDateSummary={recoveredDateSummary} recoveredDateSummary={deathDateSummary} />
 
         <h1>This is a State Summary Line chart</h1>
-        <DrawStateLine data={totalStateSummary} />
+        <DrawStateLine data={totalStateSummary} /> */}
         
         
         <h1>Here's a newbie D3 polygon</h1>

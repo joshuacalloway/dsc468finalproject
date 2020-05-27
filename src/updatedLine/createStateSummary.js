@@ -1,5 +1,4 @@
 const createStateSummary = function (data,states,type) {
-    console.log('input states are ',states);
     let summary = {};
     for(let i=0;i<states.length;i++){
         let state=states[i];

@@ -1,17 +1,14 @@
-import React, {
-    useEffect,
-    useRef
-} from 'react';
+
 import * as d3 from 'd3';
-import styled from 'styled-components';
 
 
-const DrawStateLine = ({data}) => {
 
-    useEffect(() => {
-        drawLine(data);
-    });
-    const canvasRef = useRef();
+const DrawLine = (data,canvasRef) => {
+
+    
+   
+    
+    //const canvasRef = useRef();
 
     const drawLine = data => {
         let canvas_width = 800;
@@ -173,13 +170,9 @@ const DrawStateLine = ({data}) => {
         }
         //d3.select(canvasRef.current).select('#stateline').remove()
     }
-    return <StyledDiv ref={canvasRef}></StyledDiv>;
+    drawLine(data);
+    
 }
-const StyledDiv = styled.div`    
-    background-color: None;
-    
 
-    
-`;
  
-export default DrawStateLine;
+export default DrawLine;
