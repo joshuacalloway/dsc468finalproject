@@ -6997,7 +6997,7 @@ mem@^4.0.0:
     mimic-fn "^2.0.0"
     p-is-promise "^2.0.0"
 
-memoize-one@^5.0.0:
+memoize-one@^5.0.0, memoize-one@^5.0.4:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.1.1.tgz#047b6e3199b508eaec03504de71229b8eb1d75c0"
   integrity sha512-HKeeBpWvqiVJD57ZUAsJNm71eHTykffzcLZVYWiVfQeI1rJtuEaS7hQiEpWfVVk18donPwJEcFKIkCmPJNOhHA==
@@ -9913,6 +9913,13 @@ source-map@^0.5.0, source-map@^0.5.6, source-map@^0.5.7:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
   integrity sha1-igOdLRAh0i0eoUyA2OpGi6LvP8w=
+
+sparkline-svg@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/sparkline-svg/-/sparkline-svg-1.0.4.tgz#b2dde1d31d623564416be5223616e5ca43905bc0"
+  integrity sha512-qnhnl8b8BQK/7CLK2Y/406gOsKiienAi3ep8TQW00d2RwNzJdpP44qUn66ySmHkDbG2uahWN/FriKleNKlFfbQ==
+  dependencies:
+    memoize-one "^5.0.4"
 
 spdx-correct@^3.0.0:
   version "3.1.0"

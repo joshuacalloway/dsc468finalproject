@@ -20,6 +20,7 @@
     "react-input-switch": "^2.2.2",
     "react-scripts": "3.4.1",
     "react-tooltip": "^4.2.6",
+    "sparkline-svg": "^1.0.4",
     "styled-components": "^5.1.0"
   },
   "scripts": {
