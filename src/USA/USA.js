@@ -3,12 +3,11 @@ import React, { useRef, useEffect, useState } from 'react';
 import State from './State'
 import json from './us-states.json'
 import stateCodes from './state-codes.json'
-import Switch from 'react-input-switch';
 import styled from 'styled-components';
 
 import * as d3 from 'd3'
 
-const USA = ({ result, onClick }) => {
+const USA = ({ result, onClick, tooltipsEnabled }) => {
     const [resultByState, setResultByState] = useState(null)
 
     useEffect(() => {
@@ -20,8 +19,6 @@ const USA = ({ result, onClick }) => {
     const canvasRef = useRef();
     const svg = useRef()
     const states = ['Wyoming', 'Washington', 'Alaska', 'Colorado', 'Florida', 'North Carolina', 'South Carolina', 'Virginia', 'New Hampshire', 'Iowa', 'Nebraska', 'Louisiana', 'Delaware', 'Arizona', 'Arkansas', 'Connecticut', 'South Dakota', 'North Dakota', 'Kentucky', 'Michigan', 'Pennsylvania', 'Maine', 'Vermont', 'Massachusetts', 'Maryland', 'Mississippi', 'New Mexico', 'Connecticut', 'Rhode Island', 'West Virginia', 'Wisconsin', 'Puerto Rico', 'District of Columbia', 'Hawaii', 'Nevada', 'Oregon', 'Idaho', 'Ohio', 'Minnesota', 'Utah', 'Montana', 'Minnesota', 'California', 'Texas', 'Illinois', 'Indiana', 'Georgia', 'Alabama', 'Missouri', 'Kansas', 'Tennessee', 'Oklahoma', 'New York']
-    const [tooltipsEnabled, setTooltipsEnabled] = useState(true);
-    const enableTooltipToggleButton = <Switch on={true} value={tooltipsEnabled} onChange={setTooltipsEnabled} />;
 
     let width = 960;
     let height = 500;
@@ -67,7 +64,6 @@ const USA = ({ result, onClick }) => {
 
     return (
         <StyledDiv>
-            <div><div className={"label"}>Enable or Disable Tooltips </div> {enableTooltipToggleButton}</div>
             <div ref={canvasRef} onClick={onClick}>
                 <svg ref={svg} width={960} height={500}>
                     <g>

@@ -1,5 +1,6 @@
-import fetchCurrentCovid19 from './fetchCurrentCovid19'
+import { fetchCurrentCovid19, fetchCovid19ByDate} from './fetchCurrentCovid19'
 
 export {
-    fetchCurrentCovid19
+    fetchCurrentCovid19,
+    fetchCovid19ByDate
 }

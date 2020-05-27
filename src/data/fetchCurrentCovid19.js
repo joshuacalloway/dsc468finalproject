@@ -9,6 +9,21 @@ const fetchCurrentCovid19 = (setError=noop, setResult=noop, setLoading=noop) => 
     setLoading(true)
     axios.get(CURRENT)
         .then(({data, status}) => {
+            setResult(data)
+            setLoading(false)
+        })
+        .catch(error => {
+            setError(true)
+            setLoading(false)
+        })
+   
+    return { };
+}
+
+const fetchCovid19ByDate = (setError=noop, setResult=noop, setLoading=noop) => {
+    setLoading(true)
+    axios.get('https://covidtracking.com/api/v1/states/daily.json')
+        .then(({data, status}) => {
             console.log('in axios, then, data is ', data)
             setResult(data)
             setLoading(false)
@@ -21,5 +36,6 @@ const fetchCurrentCovid19 = (setError=noop, setResult=noop, setLoading=noop) => 
     return { };
 }
 
-export default fetchCurrentCovid19;
+
+export {fetchCurrentCovid19, fetchCovid19ByDate}
 

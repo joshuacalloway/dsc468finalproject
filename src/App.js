@@ -1,43 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import BarChart from './BarChart'
-import SimplePolygon from './SimplePolygon'
-import DrawFromGeoJson from './USHeatmap/DrawFromGeoJson'
-import geojson from './USHeatmap/us-states.json';
-import covidjson from './USHeatmap/confirmed.json';
-import Map from './Map'
 import USA from './USA'
-import { fetchCurrentCovid19 } from './data'
+import { fetchCurrentCovid19, fetchCovid19ByDate } from './data'
+import { set } from 'd3';
+import Switch from 'react-input-switch';
 
 function App() {
 
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
+  const [date, setDate] = useState(new Date('2020-02-20'))
+  const [isActive, setIsActive] = useState(true);
+  const endDate = new Date('2020-05-23')
+  const [tooltipsEnabled, setTooltipsEnabled] = useState(true);
+  const enableTooltipToggleButton = <Switch on={true} value={tooltipsEnabled} onChange={setTooltipsEnabled} />;
 
   useEffect(() => {
-    fetchCurrentCovid19(setError, setResult)
+    fetchCovid19ByDate(setError, setResult)
   }, []);
 
+  const filterResultByDate = () => {
+    const formatted = `${date.toISOString().split('T')[0].replace(/-/g,'')}`
+    console.log("formatted is ", formatted)
+    return result && result.filter( item => item.date == formatted)
+  }
+
+  useEffect(() => {
+    let interval = null;
+    if (isActive) {
+      interval = setInterval(() => {
+        var day = 60 * 60 * 24 * 1000;
+        const nextDate = new Date(date.getTime() + day);
+        console.log(nextDate)
+        setDate(nextDate)
+        if (date.getTime() > endDate.getTime()) {
+          setIsActive(false)
+        }
+      }, 100);
+    } else if (!isActive) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isActive, date, endDate]);
+ 
+  const resetDate = () => {
+    setIsActive(true)
+    setDate(new Date('2020-02-20'))
+  }
   return (
     <div id="theApp" className="App">
-      <header className="App-header">
-        <p>This is USA</p>
-        <USA result={result} onClick={() => alert('clicked USA')} />
+      <p>This is USA as of {date.toDateString()}</p>
+      <USA tooltipsEnabled={tooltipsEnabled} result={filterResultByDate(result)} onClick={() => alert('clicked USA')} />
+      <button onClick={resetDate}>
+        Reset Date
+      </button>
+      <div><div className={"label"}>Enable or Disable Tooltips </div> {enableTooltipToggleButton}</div>
 
-        <h1>This is Drawing one country from GeoJSON</h1>
-
-        <DrawFromGeoJson geojson={geojson} covidjson={covidjson} onClick={() => alert("clicked DrawFrom GeoJson")} />
-
-        <h1>This is a Leaflef Map</h1>
-        <Map />
-
-        <h1>Here's a newbie D3 polygon</h1>
-        <SimplePolygon />
-
-        <h1>Here's a newbie D3 barchart</h1>
-        <BarChart />
-
-      </header>
     </div>
   );
 }
