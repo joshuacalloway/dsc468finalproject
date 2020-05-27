@@ -14,9 +14,9 @@ const createStateSummary = function (data,states,type) {
             let date = data_point['Date'];
             date = date.substring(0, 10);
             if(date in summary[state]){
-                summary[state][date]+=data_point['Cases'];
+                summary[state][date]+=data_point['Cases']+1;
             } else {
-                summary[state][date]=data_point['Cases'];
+                summary[state][date]=data_point['Cases']+1;
             }
 
         }
