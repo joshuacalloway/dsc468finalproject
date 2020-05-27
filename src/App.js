@@ -3,7 +3,7 @@ import './App.css';
 import USA from './USA'
 import { fetchCovid19ByDate } from './data'
 import Switch from 'react-input-switch';
-import CovidStockChart from './CovidStockChart'
+import AnimatingLineGraph from './AnimatingLineGraph'
 
 function App() {
   const startDate = new Date('2020-02-20')
@@ -85,8 +85,7 @@ function App() {
       
       <p>This is USA as of {date.toDateString()}</p>
 
-      <CovidStockChart values={[151, 171,185,232]} stroke={'green'} strokeWidth={'1px'} width={'300px'} height={'300px'}/>
-      {/* <CovidCalendar data={summaryResultsByDate(result)} startDate={startDate} endDate={endDate}/> */}
+      <AnimatingLineGraph values={[151, 171,185,232]} stroke={'red'} strokeWidth={'1px'} width={'300'} height={'30'}/>
     </div>
   );
 }
