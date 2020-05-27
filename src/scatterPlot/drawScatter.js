@@ -49,11 +49,11 @@ let ScatterVis = function (confirm, death, recovered) {
 
             let y = d3.scaleLinear()
                 .domain([0,ymax+5])
-                .range([height, 0]);
+                .range([0, height]);
 
             let z = d3.scaleSqrt()
                 .domain([zmin, zmax])
-                .range([2, 10]);
+                .range([4, 10]);
             let color = d3.scaleOrdinal(d3.schemeCategory10);
                 
             g.append("g")
@@ -104,7 +104,7 @@ let ScatterVis = function (confirm, death, recovered) {
                     console.log('this is:', this);
                     d3.select(this)
                         .style("cursor", "none")
-                        .style("fill", 'green')
+                        .style("fill", (d,i)=>color(i))
                         .transition()
                         .duration(100)
                         .selectAll(".text").remove();
