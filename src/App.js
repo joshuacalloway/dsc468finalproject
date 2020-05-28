@@ -32,26 +32,40 @@ function App() {
     console.log("summary is ", summary)
 
     const toNum = (num) => isNaN(num) ? 0 : num;
-    const deathTotals
-     = results && results.reduce((acc, item) => { 
-      const found = acc.find(i => i.date.replace(/-/g, '') == item.date)
-      console.log(`found is ${found} and item.date is: "${item.date}"`)
-      if (found) 
-      {
-        found.count = found.count + toNum(item.death)
-        return [...acc, found]
-      }
-      return acc
-    }, summary)
-    console.log("deathTotals is ", deathTotals)
+    // const deathTotals
+    //  = results && results.reduce((acc, item) => { 
+    //   const found = acc[Object.keys(acc).find(i => i.date.replace(/-/g, '') == item.date)]
+    //   // console.log(`found is ${found} and item.date is: "${item.date}"`)
+    //   if (found) 
+    //   {
+    //     found.count = found.count + toNum(item.death)
+    //     summary[item.date] = found.count
+    //     return summary;
+    //   }
+    //   return acc
+    // }, summary)
+    if (results) {
+      results.map((item) => summary[item.date] = toNum(summary[item.date]) + toNum(item.death))
+    }
+    console.log("summary at exit is ", summary)
 
     // const deathTotals = results.reduce((acc, item) => 
     //   acc[item.date] ? {...acc, ({ acc[item.date]: acc[item.date].deaths + item.deaths }) } :
     //   {...acc, ({ acc[item.date]: item.deaths }) }
     // )
-    return deathTotals
+    var keys = new Array();
+    var values = new Array();
+
+    for(var key in summary) {
+      keys.push(key);
+      values.push(summary[key]);
+    }
+
+    return { summary, keys, values };
   }
 
+  const { summary, keys, values } = summaryResultsByDate(result)
+  console.log("summaryResults is: ", summary)
   useEffect(() => {
     let interval = null;
     if (isActive) {
@@ -74,8 +88,7 @@ function App() {
     setIsActive(true)
     setDate(startDate)
   }
-  const deathData = [3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 9, 3, 6, 3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 9, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 9, 3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 9]
-
+  const bloodRed = '#9b0000'
   return (
     <div id="theApp" className="App">
       <USA tooltipsEnabled={tooltipsEnabled} result={filterResultByDate(result)} onClick={() => alert('clicked USA')} />
@@ -86,7 +99,7 @@ function App() {
       
       <p>This is USA as of {date.toDateString()}</p>
 
-      <AnimatingLineGraph data={deathData} values={[151, 171,185,232]} stroke={'red'} strokeWidth={'1px'} width={'300'} height={'30'}/>
+      <AnimatingLineGraph data={values} stroke={bloodRed} strokeWidth={'1px'} width={'300'} height={'30'}/>
     </div>
   );
 }
@@ -94,12 +107,13 @@ function App() {
 export default App;
 function initializeSummaryResultsByDate(startDate, endDate) {
   var iter = startDate;
-  var ret = [];
+  var ret = {};
   while (iter <= endDate) {
-    const formatted = `${iter.toISOString().split('T')[0]}`;
+    const formatted = `${iter.toISOString().split('T')[0].replace(/-/g,'')}`;
     var day = 60 * 60 * 24 * 1000;
     iter = new Date(iter.getTime() + day);
-    ret = [...ret, { date: formatted, count: 0 }];
+
+    ret[formatted] = 0
   }
   return ret;
 }
