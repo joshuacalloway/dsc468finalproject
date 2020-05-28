@@ -38,28 +38,36 @@ let ScatterVis = function (confirm, death, recovered) {
             let width = canvas_width - margin.left - margin.right;
             let height = canvas_height - margin.top - margin.bottom;
             
-
+            var formatPercent = d3.format(".0%");
+            
+           
            
             let g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
             //var parseTime = d3.timeParse("%d-%b-%y");
 
             let x = d3.scaleLinear()
-                .domain([0, xmax+5])
+                .domain([0, xmax+0.05])
                 .range([0, width]);
 
             let y = d3.scaleLinear()
-                .domain([0,ymax+5])
+                .domain([0,ymax+0.05])
                 .range([0, height]);
 
             let z = d3.scaleSqrt()
                 .domain([0, 20000])
                 .range([0, 8]);
             let color = d3.scaleOrdinal(d3.schemeCategory10);
-                
+            let xAxis=d3.axisBottom(x).tickFormat(formatPercent)
             g.append("g")
                 .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x))
+                .call(xAxis)
+                .append("text")
+                .attr("fill", "white")
+                .attr("x", width)
+                .attr("dy", "3em")
+                .attr("text-anchor", "end")
+                .text("Recoverd Rate");
 
             var legend = svg.selectAll('#scatterplot.legend')
             .data(rates)
@@ -88,16 +96,16 @@ let ScatterVis = function (confirm, death, recovered) {
                 })
                 .style('fill','white')
                 .style('font-size','10px');
-
+            let yAxis=d3.axisLeft(y).tickFormat(formatPercent)
             g.append("g")
-                .call(d3.axisLeft(y))
+                .call(yAxis)
                 .append("text")
-                .attr("fill", "#000")
+                .attr("fill", "white")
                 .attr("transform", "rotate(-90)")
                 .attr("y", 6)
                 .attr("dy", "0.71em")
                 .attr("text-anchor", "end")
-                .text("Y");
+                .text("Death Rate");
 
             g.selectAll(".circles")
                 .data(rates)
