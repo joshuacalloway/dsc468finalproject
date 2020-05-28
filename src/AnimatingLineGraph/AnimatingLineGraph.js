@@ -11,15 +11,12 @@ const AnimatingLineGraph = ({
     preserveAspectRatio = 'none',
     stroke = 'currentColor',
     strokeWidth = '1%',
-    title = 'Sparkline',
-    viewBoxHeight = 100,
-    viewBoxWidth = 100,
     data,
     width = '100%',
 }) => {
     var x = d3.scaleLinear().domain([0, data.length]).range([-5, width]); // starting point is -5 so the first value doesn't show and slides off the edge as part of the transition
     var y = d3.scaleLinear().domain([0, Math.max(...data)]).range([height, 0]);
-
+    console.log("data is ", data)
     var line = d3.line()
         .x((d, i) => x(i))
         .y((d) => y(d))
@@ -36,8 +33,8 @@ const AnimatingLineGraph = ({
 
     return (
         <>
-            <StyledDiv ref={graphRef} className={"aGraph"}>
-                <StyledSvg stroke={stroke} ref={svgRef} width={width} height={height}>
+            <StyledDiv ref={graphRef} className={"aGraph"} width={width} height={height}>
+                <StyledSvg stroke={stroke} ref={svgRef}>
                     <path ref={pathRef} id="lineGraph" transform={`translate(${x(1)})`} />
                 </StyledSvg>
             </StyledDiv>
@@ -48,7 +45,7 @@ const AnimatingLineGraph = ({
 export default AnimatingLineGraph
 
 const StyledDiv = styled.div`
-    
+border:1px solid pink; 
 `
 const StyledSvg = styled.svg`
     path {
@@ -56,6 +53,6 @@ const StyledSvg = styled.svg`
         stroke-width: 1;
         fill: none;
     }
-    margin-left: 10rem;
-    margin-top: 5rem;
+    margin: 1rem;
+    border:1px solid blue; 
 `

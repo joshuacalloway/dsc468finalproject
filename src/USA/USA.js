@@ -86,4 +86,6 @@ const StyledDiv = styled.div`
         display: table-cell;
 
     }
+    border:1px solid purple; 
+
 `
