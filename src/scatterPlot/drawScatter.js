@@ -11,7 +11,7 @@ let ScatterVis = function (confirm, death, recovered) {
             console.log('rates is ',rates)
             let margin = {
                 top: 20,
-                right: 20,
+                right: 200,
                 bottom: 30,
                 left: 50
             }
@@ -30,12 +30,13 @@ let ScatterVis = function (confirm, death, recovered) {
             }
             console.log('xmax is ',xmax)
             d3.select(canvasRef.current).select('#scatterplot').remove();
-
+            let canvas_width=960;
+            let canvas_height=500;
             let svg=d3.select(canvasRef.current).append('svg').attr('id','scatterplot')
-            svg.attr("width", 960).attr("height", 500);
+            svg.attr("width", canvas_width).attr("height", canvas_height);
 
-            let width = 960 - margin.left - margin.right;
-            let height = 500 - margin.top - margin.bottom;
+            let width = canvas_width - margin.left - margin.right;
+            let height = canvas_height - margin.top - margin.bottom;
             
 
            
@@ -60,7 +61,33 @@ let ScatterVis = function (confirm, death, recovered) {
                 .attr("transform", "translate(0," + height + ")")
                 .call(d3.axisBottom(x))
 
-
+            var legend = svg.selectAll('#scatterplot.legend')
+            .data(rates)
+            .enter()
+            .append('g')
+            .attr('class', 'legend');
+    
+            legend.append('rect')
+                .attr('x', canvas_width - 200)
+                .attr('y', function (d, i) {
+                    return i * 20 + 40;
+                })
+                .attr('width', 10)
+                .attr('height', 10)
+                .style('fill', function (d, i) {
+                    return color(i);
+                });
+    
+            legend.append('text')
+                .attr('x', canvas_width - 188)
+                .attr('y', function (d, i) {
+                    return (i * 20) + 49;
+                })
+                .text(function (d) {
+                    return d.state;
+                })
+                .style('fill','white')
+                .style('font-size','10px');
 
             g.append("g")
                 .call(d3.axisLeft(y))

@@ -17,7 +17,7 @@ function Combined({geojson,covidjson,deaths,recovered}) {
     })
 
     const canvasRef = useRef();
-
+    
     const Draw = function(geojson,covidjson,deaths,recovered){
         let MC=MapVis(geojson,covidjson,canvasRef);
         MC.DrawMap();
