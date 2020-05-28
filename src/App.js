@@ -12,7 +12,7 @@ function App() {
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
   const [date, setDate] = useState(startDate)
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(true);
 
   const [tooltipsEnabled, setTooltipsEnabled] = useState(true);
   const enableTooltipToggleButton = <Switch on={true} value={tooltipsEnabled} onChange={setTooltipsEnabled} />;
@@ -23,7 +23,6 @@ function App() {
 
   const filterResultByDate = () => {
     const formatted = `${date.toISOString().split('T')[0].replace(/-/g,'')}`
-    console.log("formatted is ", formatted)
     return result && result.filter( item => item.date == formatted)
   }
 
@@ -75,6 +74,8 @@ function App() {
     setIsActive(true)
     setDate(startDate)
   }
+  const deathData = [3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 9, 3, 6, 3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 9, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 9, 3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 9]
+
   return (
     <div id="theApp" className="App">
       <USA tooltipsEnabled={tooltipsEnabled} result={filterResultByDate(result)} onClick={() => alert('clicked USA')} />
@@ -85,7 +86,7 @@ function App() {
       
       <p>This is USA as of {date.toDateString()}</p>
 
-      <AnimatingLineGraph values={[151, 171,185,232]} stroke={'red'} strokeWidth={'1px'} width={'300'} height={'30'}/>
+      <AnimatingLineGraph data={deathData} values={[151, 171,185,232]} stroke={'red'} strokeWidth={'1px'} width={'300'} height={'30'}/>
     </div>
   );
 }

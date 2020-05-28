@@ -17,10 +17,11 @@ const AnimatingLineGraph = ({
     viewBoxWidth = 100,
     width = '100%',
 }) => {
-    const [data, setData] = useState([3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 9, 3, 6, 3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 9, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 9, 3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 9])
-
-    var x = d3.scaleLinear().domain([0, 48]).range([-5, width]); // starting point is -5 so the first value doesn't show and slides off the edge as part of the transition
-    var y = d3.scaleLinear().domain([0, 10]).range([0, height]);
+    const dataPullFrom = [...Array(50).keys()]
+    const data = [];
+    const [indexData, setIndexData] = useState(0)
+    var x = d3.scaleLinear().domain([0, dataPullFrom.length]).range([-5, width]); // starting point is -5 so the first value doesn't show and slides off the edge as part of the transition
+    var y = d3.scaleLinear().domain([0, Math.max(...dataPullFrom)]).range([height, 0]);
 
     const transitionDelay = 1000
     var line = d3.line()
@@ -30,6 +31,8 @@ const AnimatingLineGraph = ({
         .curve(d3.curveBasis)
 
     const redrawWithAnimation = useCallback(() => {
+        console.log("redrawWithAnimation, data is ", data)
+
         d3.select("#lineGraph")
             .data([data])
             .attr("transform", "translate(" + x(1) + ")")
@@ -42,17 +45,29 @@ const AnimatingLineGraph = ({
     }, [data, line, x]);
 
     const timer = setInterval(() => {
-        var v = data.shift(); // remove the first element of the array
-        data.push(v)
-        setData(data)
+        //var v = data.shift(); // remove the first element of the array
+       // 
+        // setData(data)
+        // if (indexData < data.length) {
+        //     setIndexData(indexData + 1)
+        // } else {
+        //     setIndexData(0)
+        // }
+        console.log("timer, interval, dataPullFrom is ", dataPullFrom)
+        console.log("timer, interval, data is ", data)
+
+        if (dataPullFrom.length > 0) {
+        data.push(dataPullFrom.shift())
         redrawWithAnimation()
-    }, 1000);
+        }
+    }, 2000);
 
 
     // .interpolate(interpolation)
     useEffect(() => {
+        console.log("useEffect, data is ", data)
         d3.select(pathRef.current).attr('d', line(data))
-    }, [data, line])
+    }, [data, indexData, line])
 
     const graphRef = useRef()
     const pathRef = useRef()
@@ -63,18 +78,20 @@ const AnimatingLineGraph = ({
             <div ref={graphRef} className={"aGraph"} style={{ width: '300px', height: '30px' }}>
                 <StyledSvg ref={svgRef} width={'500px'} height={'200px'}>
                     <path ref={pathRef} id="lineGraph" transform={`translate(${x(1)})`} />
+                    
                 </StyledSvg>
 
             </div>
         </>
     );
+    
 }
 
 export default AnimatingLineGraph
 
 const StyledSvg = styled.svg`
     path {
-        stroke: steelblue;
+        stroke: #af111c;   // blood red
         stroke-width: 1;
         fill: none;
     }
