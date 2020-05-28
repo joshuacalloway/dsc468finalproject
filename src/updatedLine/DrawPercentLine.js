@@ -106,8 +106,8 @@ const DrawPercentLine = (data,canvasRef) => {
             })
             .style('fill','white')
             .style('font-size','10px');
-        d3.select(canvasRef.current).select('#tooltip').remove()
-        d3.select(canvasRef.current).append('div').attr('id', 'tooltip')
+        d3.select(canvasRef.current).select('#percenttooltip').remove()
+        d3.select(canvasRef.current).append('div').attr('id', 'percenttooltip')
             .style('position', 'absolute')
             .style('background-color', 'lightgray')
             .style('padding', '5px');
@@ -116,7 +116,7 @@ const DrawPercentLine = (data,canvasRef) => {
         var lineStroke = "2px";
         let tipBox;
         let tooltipLine = chart.append('line');
-        const tooltip = d3.select('#tooltip');
+        const tooltip = d3.select('#percenttooltip');
         chart.selectAll('.lines')
             .data(data).enter().append('g')
             .attr('class', 'lines')
@@ -170,7 +170,7 @@ const DrawPercentLine = (data,canvasRef) => {
                 .data(data).enter()
                 .append('div')
                 .style('color', (d, i) => color(i))
-                .html(d => d.state + ': ' + d.values[i].value);
+                .html(d => d.state + ': ' + formatPercent(d.values[i].value));
             
         }
         //d3.select(canvasRef.current).select('#stateline').remove()
