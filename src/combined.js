@@ -8,7 +8,9 @@ import styled from 'styled-components';
 import createStateSummary from "./updatedLine/createStateSummary";
 import DrawLine from "./updatedLine/DrawLine";
 import MapVis from "./HexagonMap/drawMap";
-import ScatterVis from "./scatterPlot/drawScatter"
+import ScatterVis from "./scatterPlot/drawScatter";
+import createChangeSummary from "./updatedLine/createChangeSummary";
+import DrawPercentLine from "./updatedLine/DrawPercentLine";
 function Combined({geojson,covidjson,deaths,recovered}) {
 
     //call component 
@@ -26,8 +28,11 @@ function Combined({geojson,covidjson,deaths,recovered}) {
         MC.dispatch.on("selected",function(data){
             console.log('passed data is',data)
             let totalStateSummary=createStateSummary(covidjson,data,"confirmed");
-            console.log(totalStateSummary);
             DrawLine(totalStateSummary,canvasRef);
+            console.log(totalStateSummary);
+            let totalPercentSummary=createChangeSummary(covidjson,data,"confirmed");
+            DrawPercentLine(totalPercentSummary,canvasRef)
+            
             SV.drawScatter(data,canvasRef);
         });
             
