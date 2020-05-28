@@ -19,6 +19,7 @@ const computer_rate = function(states,confirmed,death,recover){
     let c_sum = calc_sum(confirmed, 'confirmed');
     let r_sum = calc_sum(recover, 'recovered');
     let d_sum = calc_sum(death, 'deaths');
+    console.log('d_sum is ',d_sum)
     let result=[];
     for(let i=0;i<states.length;i++){
         let state=states[i];

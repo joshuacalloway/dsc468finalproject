@@ -52,8 +52,8 @@ let ScatterVis = function (confirm, death, recovered) {
                 .range([0, height]);
 
             let z = d3.scaleSqrt()
-                .domain([zmin, zmax])
-                .range([4, 10]);
+                .domain([0, 20000])
+                .range([0, 8]);
             let color = d3.scaleOrdinal(d3.schemeCategory10);
                 
             g.append("g")
