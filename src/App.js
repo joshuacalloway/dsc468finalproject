@@ -1,22 +1,19 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-// import './App.css';
+import React, { useState, useEffect, useCallback } from 'react';
 import USA from './USA'
 import { fetchDailyCovidData } from './data'
 import AnimatingLineGraph from './AnimatingLineGraph'
 import styled from 'styled-components'
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import DeathCounter from './DeathCounter'
+import noop from 'lodash'
 
 function App() {
   const startDate = new Date(Date.UTC(2020, 2,11,0,0))
   const endDate = new Date(Date.UTC(2020,4,24))
   const [result, setResult] = useState(null)
-  const [error, setError] = useState(null)
   const [date, setDate] = useState(startDate)
   const [dateIndex, setDateIndex] = useState(0)
   const [isActive, setIsActive] = useState(true);
-  const [deathNumbers, setDeathNumbers] = useState([])
-  const timerRef = useRef()
   
 
   const filterResultByDate = useCallback((result, date) => {
@@ -55,13 +52,10 @@ function App() {
   })
 
   useEffect(() => {
-    fetchDailyCovidData(setError, setResult)
+    fetchDailyCovidData(noop, setResult)
   },[])
 
   const calculateDeathArr = (result, startDate, endDate) => {
-    var day = 60 * 60 * 24 * 1000;
-    //const iter = new Date(startDate.getTime())
-
     const filterResultByDate2 = (result, date) => {
       const formatted = `${date.toISOString().split('T')[0].replace(/-/g, '')}`
       return result && result.filter(item => item.date == formatted)
@@ -123,16 +117,3 @@ const StyledHorizontalDiv = styled.div`
 `;
 
 export default App;
-// function initializeSummaryResultsByDate(startDate, endDate) {
-//   var iter = startDate;
-//   var ret = {};
-//   while (iter <= endDate) {
-//     const formatted = `${iter.toISOString().split('T')[0].replace(/-/g, '')}`;
-//     var day = 60 * 60 * 24 * 1000;
-//     iter = new Date(iter.getTime() + day);
-
-//     ret[formatted] = 0
-//   }
-//   return ret;
-// }
-
