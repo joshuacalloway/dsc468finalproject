@@ -8,20 +8,14 @@ import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import DeathCounter from './DeathCounter'
 
 function App() {
-  const startDate = new Date(Date.UTC(2020, 2,12,0,0))
-  const endDate = new Date(Date.UTC(2020,5,24))
+  const startDate = new Date(Date.UTC(2020, 2,11,0,0))
+  const endDate = new Date(Date.UTC(2020,4,24))
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
   const [date, setDate] = useState(startDate)
   const [isActive, setIsActive] = useState(true);
   const [deathNumbers, setDeathNumbers] = useState([])
   const timerRef = useRef()
-
-  useEffect(() => {
-    fetchDailyCovidData(setError, setResult)
-  }, []);
-
-
 
   const filterResultByDate = useCallback(() => {
     const formatted = `${date.toISOString().split('T')[0].replace(/-/g, '')}`
@@ -30,8 +24,7 @@ function App() {
 
   var filteredResults = filterResultByDate();
 
-  const calculateTotalDeath = () => {
-    filteredResults = filterResultByDate();
+  const calculateTotalDeath = (filteredResults) => {
     if (filteredResults) {
       const {death} = filteredResults.reduce((item, {death}) => ({ death: death + item.death }), { death: 0})      
       return isNaN(death) ? 0 : death
@@ -41,28 +34,32 @@ function App() {
 
   const incrementDate = () => {
     var day = 60 * 60 * 24 * 1000;
-    const nextDate = new Date(date.getTime() + day)
-    if (nextDate.getTime() <= endDate.getTime()) {
+    if (date.getTime() <= endDate.getTime()) {
+      const nextDate = new Date(date.getTime() + day)
+
       setDate(nextDate)
       console.log("incrementDate, nextDate is ", nextDate)
-      // const death = calculateTotalDeath()
-      // setTotalDeath(death)
-      setDeathNumbers([...deathNumbers, {Date: nextDate, TotalDeath: calculateTotalDeath()}])
+      setDeathNumbers([...deathNumbers, {Date: nextDate, TotalDeath: calculateTotalDeath(filterResultByDate())}])
       console.log("deathNumbers is ", deathNumbers)
       const dataNumbers = deathNumbers.map(x => x.TotalDeath)
       console.log("dataNumbers is ", dataNumbers)
     }
   }
 
-  const resetDate = () => {
+  const resetDate = useCallback(() => {
     setIsActive(true)
     setDate(startDate)
-  }
+  })
+
+  useEffect(() => {
+    fetchDailyCovidData(setError, setResult)
+  }, []);
+
   const bloodRed = '#9b0000'
   return (
     <StyledVerticalDiv id="theApp" className="App">
         <StyledVerticalDiv>
-          <DeathCounter totalDeath={calculateTotalDeath()} date={date} />
+          <DeathCounter totalDeath={calculateTotalDeath(filterResultByDate())} date={date} />
           <button onClick={incrementDate}>Next Date</button>
           <button onClick={resetDate}>Reset Date</button>
 
