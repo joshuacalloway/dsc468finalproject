@@ -18,7 +18,6 @@ const State = ({ result, tooltipsEnabled, geojson, colorFunction, name, onClick,
         setTooltipLocation({ x: 0, y: 0 })
     }
 
-    console.log(`result for ${name} is`, result)
     return (
         <>
             <StyledPath d={path(geojson)} onMouseEnter={onMouseEnter} death={death} onMouseLeave={onMouseLeave} colorFunction={colorFunction} positive={positive}>
