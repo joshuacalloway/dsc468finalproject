@@ -4,7 +4,7 @@ import Bubble from './Bubble'
 import styled from 'styled-components'
 
 
-const BubblePlot = ({data, width,height,tooltipsEnabled}) => {
+const BubblePlot = ({data, width,height}) => {
     // const margin = {top: 10, right: 20, bottom: 30, left: 50},
     // setting Axis
     const x = d3.scaleLinear()
@@ -25,10 +25,9 @@ const BubblePlot = ({data, width,height,tooltipsEnabled}) => {
     return (
         <div>
             <StyleSvg  width={width} height={height}>
-                <g>
-                    {data.map((item, index) =>
-                        <Bubble center={{ x: item.death, y: item.recovery }} radius={item.comfirmed}
-                            position={index} tooltipsEnabled={tooltipsEnabled}></Bubble>)}
+                <g transform = 'translate(30,30)'>
+                    {data.map((item) =>
+                        <Bubble center={{ x: item.death, y: item.recovery }} radius={item.comfirmed}></Bubble>)}
                 </g>
 
                 <g id='xaixs' transform={`translate(30,${height - 30})`} />

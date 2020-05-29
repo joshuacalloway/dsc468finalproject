@@ -27,7 +27,7 @@ function App() {
   const texasConfirmed = summary.Texas;
   console.log("in App, summary is ", summary)
   console.log("in App, colorFunction is ", colorFunction)
-  const [tooltipsEnabled, setTooltipsEnabled] = useState(false);
+  const [tooltipsEnabled, setTooltipsEnabled] = useState(true);
   const enableTooltipToggleButton = <Switch value={tooltipsEnabled} onChange={setTooltipsEnabled} />;
 
   return (
@@ -38,7 +38,9 @@ function App() {
 
         <h1>This is a US Heat Map</h1>
         <USHeatmap />
-
+        <div onMouseEnter={(e) => { console.log('aaa', e.pageX,'ya',e.pageY)}}>
+        debugging Tooltips
+        </div>
         <h1>This is Drawing one country from GeoJSON</h1>
         <DrawFromGeoJson geojson={geojson} covidjson={covidjson} />
 
@@ -50,9 +52,11 @@ function App() {
         
         <h1>This is a bubble plot</h1>
         <div id="bubble_chart">
-          <text>Enable or Disable Tooltips {enableTooltipToggleButton}</text>
-        <BubblePlot data={test_data} width={600} height={500} tooltipsEnabled={tooltipsEnabled}/>
+          {/* <text>Enable or Disable Tooltips {enableTooltipToggleButton}</text> */}
+          <BubblePlot data={test_data} width={600} height={500} />
         </div>
+
+       
         {/* {/* <h1>Here's a newbie D3 polygon</h1> */}
         <SimplePolygon />
 

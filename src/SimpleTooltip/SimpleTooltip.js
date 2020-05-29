@@ -18,7 +18,7 @@ const SimpleTooltip = ({ children, location, isVisible, tooltipsEnabled }) => {
             style={{
                 top: location.y,
                 left: location.x,
-                visibility: isVisible && tooltipsEnabled ? 'visible' : 'hidden',
+                visibility: isVisible && tooltipsEnabled ? 'visible' : 'hidden', // both true -->'visible' otherwise 'hidden'
             }}
         >
             <InnerContainer>{children}</InnerContainer>
@@ -31,7 +31,7 @@ export default React.forwardRef(SimpleTooltip);
 const Container = styled.div`
   opacity: 1;
   border: 1px solid #cccccc;
-  background-color: white;
+  background-color: red;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   min-width: 28rem;
   position: fixed;
