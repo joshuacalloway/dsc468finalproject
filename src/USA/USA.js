@@ -43,12 +43,16 @@ const USA = ({ result, onClick, tooltipsEnabled }) => {
     }
 
     const getColorFunction = () => {
-        let lowColor = '#f9f9f9';
-        let highColor = '#bc2a66';
+        const bloodRed = '#9b0000'
+
+        let lowColor = '#ffffff';
+      //  let lowColor = 'pink'
+        let highColor = bloodRed;
+
     
         let minVal = 0;
-        let maxVal = 5000;
-        let colorFunction = d3.scaleLinear().domain([minVal, maxVal]).range([lowColor, highColor])
+        let maxVal = 100000;
+        let colorFunction = d3.scaleLog().clamp(true).domain([0.1, maxVal]).range([lowColor, highColor])
         return colorFunction
     }
     const drawEachState = (state) => {

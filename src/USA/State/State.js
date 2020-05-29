@@ -6,7 +6,7 @@ const State = ({ result, tooltipsEnabled, geojson, colorFunction, name, onClick,
     const [tooltipLocation, setTooltipLocation] = useState({ x: 0, y: 0 })
     const [tooltipVisible, setTooltipVisible] = useState(false)
 
-    const {positive, death, recovered} = result
+    const {positive = 0, death = 0, recovered = 0} = result
 
     const onMouseEnter = (e) => {
         setTooltipVisible(true)
@@ -18,6 +18,7 @@ const State = ({ result, tooltipsEnabled, geojson, colorFunction, name, onClick,
         setTooltipLocation({ x: 0, y: 0 })
     }
 
+    console.log(`result for ${name} is`, result)
     return (
         <>
             <StyledPath d={path(geojson)} onMouseEnter={onMouseEnter} death={death} onMouseLeave={onMouseLeave} colorFunction={colorFunction} positive={positive}>
@@ -30,7 +31,7 @@ const State = ({ result, tooltipsEnabled, geojson, colorFunction, name, onClick,
                         <li>Confirmed: {positive}</li>
                         <li>death: {death}</li>
                         <li>recovered: {recovered}</li>
-
+                        <li>cF: {colorFunction(death)}</li>
                     </ul>
                     </div>
             </Tooltip>

@@ -12,11 +12,13 @@ const AnimatingLineGraph = ({
     stroke = 'currentColor',
     strokeWidth = '1%',
     data,
+    deathNumbers,
     width = '100%',
 }) => {
+    console.log("AG, deathNumbers is ", deathNumbers)
+    console.log("data is ", data)
     var x = d3.scaleLinear().domain([0, data.length]).range([-5, width]); // starting point is -5 so the first value doesn't show and slides off the edge as part of the transition
     var y = d3.scaleLinear().domain([0, Math.max(...data)]).range([height, 0]);
-    console.log("data is ", data)
     var line = d3.line()
         .x((d, i) => x(i))
         .y((d) => y(d))
