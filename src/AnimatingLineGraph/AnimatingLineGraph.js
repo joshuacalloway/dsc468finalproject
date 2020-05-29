@@ -14,14 +14,13 @@ const AnimatingLineGraph = ({
     const max = d3.max(data)
     console.log("index is ", index, ", max is ", max)
     var x = d3.scaleLinear().domain([0, data.length]).range([-5, width]); // starting point is -5 so the first value doesn't show and slides off the edge as part of the transition
-    var x2 = d3.scaleLinear().domain([0, data.length]).range([x(index), width]); // starting point is -5 so the first value doesn't show and slides off the edge as part of the transition
+    var x2 = d3.scaleLinear().domain([0, data.length - index]).range([x(index), width]); // starting point is -5 so the first value doesn't show and slides off the edge as part of the transition
 
     // var y = d3.scaleLinear().domain([0, Math.max(...data)]).range([height, 0]);
     var y = d3.scaleLinear().domain([0, max]).range([height, 0]);
 
     var line = d3.line()
         .x((d, i) => {
-       //     console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
             return x(i)
         })
         .y((d) => {
@@ -43,31 +42,23 @@ const AnimatingLineGraph = ({
     // .curve(d3.curveBasis)
 
     useEffect(() => {
-        // if (data.length < 11) return;
         d3.select(firstPartPathRef.current).attr('d', line(data.slice(0, index)))
         d3.select(secondPartPathRef.current).attr('d', line2(data.slice(index)))
 
-        //     if (data.length > 11) {
-            d3.select(firstPartPathFillRef.current)
+        d3.select(firstPartPathFillRef.current)
           .datum(data.slice(0,index))
-          .attr("fill", "none")
-          .attr("fill-opacity", .3)
-          .attr("stroke", "none")
           .attr("d", d3.area()
             .x(function(d,i) { return x(i) })
             .y0( height )
             .y1(function(d) { return y(d) })
             )
-        //     }
 
     }, [data, height, index, line, line2, x, y])
 
     const graphRef = useRef()
     const firstPartPathRef = useRef()
     const firstPartPathFillRef = useRef()
-
     const secondPartPathRef = useRef()
-
     const svgRef = useRef()
 
     return (
@@ -92,9 +83,10 @@ const StaticPath1 = styled.path`
 `
 
 const StaticPath1Fill = styled.path`
-    stroke: none;  // ${({ stroke }) => stroke};
+    stroke: none;
     fill: red;
     stroke-width: 4;
+    fill-opacity: 0.3;
 `
 
 const StaticPath2 = styled.path`
