@@ -38,14 +38,8 @@ function App() {
     var day = 60 * 60 * 24 * 1000;
     if (date.getTime() <= endDate.getTime()) {
       const nextDate = new Date(date.getTime() + day)
-
       setDate(nextDate)
       setDateIndex(dateIndex+1)
-      // console.log("incrementDate, nextDate is ", nextDate)
-      // setDeathNumbers([...deathNumbers, {Date: nextDate, TotalDeath: calculateTotalDeath(filterResultByDate(result, date))}])
-      // console.log("deathNumbers is ", deathNumbers)
-      // const dataNumbers = deathNumbers.map(x => x.TotalDeath)
-      // console.log("dataNumbers is ", dataNumbers)
     }
   }
   const addDays = (date, days) => {
@@ -61,7 +55,6 @@ function App() {
   })
 
   useEffect(() => {
-    console.log("useEffect 1")
     fetchDailyCovidData(setError, setResult)
   },[])
 
@@ -95,14 +88,6 @@ function App() {
     return deathArr;
   }
 
-  // useEffect(() => {
-  //   console.log("useEffect 2, result is ", result)
-    
-   
-  //   // setDeathNumbers(deathArr);
-  // }, [result, startDate]);
-
-  const bloodRed = '#9b0000'
   return (
     <StyledVerticalDiv id="theApp" className="App">
         <StyledVerticalDiv>
@@ -119,7 +104,7 @@ function App() {
           options={{ height: 400 }}
         />
           {/* <div><div className={"label"}>Enable or Disable Tooltips </div> {enableTooltipToggleButton}</div> */}
-          <AnimatingLineGraph index={dateIndex} data={calculateDeathArr(result, startDate, endDate).map(x => x.TotalDeath)} stroke={bloodRed} strokeWidth={'1px'} width={'700'} height={'200'} />
+          <AnimatingLineGraph index={dateIndex} data={calculateDeathArr(result, startDate, endDate).map(x => x.TotalDeath)} width={'800'} height={'400'} />
         </StyledHorizontalDiv>
       </StyledVerticalDiv>
   );

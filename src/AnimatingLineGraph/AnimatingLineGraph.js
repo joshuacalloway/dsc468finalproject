@@ -2,12 +2,11 @@ import React, { useEffect, useRef, useState, useCallback } from 'react'
 import styled from 'styled-components'
 import * as d3 from 'd3'
 
+const bloodRed = '#9b0000'
+
 
 const AnimatingLineGraph = ({
-    desc = 'A line graph representation of a value\'s change over time.',
-    fill = 'transparent',
     height,
-    stroke = 'currentColor',
     index,
     data,
     width,
@@ -73,27 +72,18 @@ const AnimatingLineGraph = ({
 
     return (
         <>
-            {/* <StyledDiv ref={graphRef} className={"aGraph"} width={`${width}px`} height={`${height}px`}> */}
             <StyledSvg ref={svgRef} width={`${width}px`} height={`${height}px`}>
                 <g>
-                    {/* transform={`translate(${x(1)})`}  */}
-                    <StaticPath1 id="path1" className="line" stroke={'red'} ref={firstPartPathRef} />
-
-                    <StaticPath1Fill id="path1" className="line" stroke={'red'} ref={firstPartPathFillRef} />
+                    <StaticPath1 id="path1" className="line" stroke={bloodRed} ref={firstPartPathRef} />
+                    <StaticPath1Fill id="path1" className="line" stroke={bloodRed} ref={firstPartPathFillRef} />
                     <StaticPath2 id="path2" className="line" stroke={'#D3D3D3'} ref={secondPartPathRef} />
-
                 </g>
             </StyledSvg>
-            {/* </StyledDiv> */}
         </>
     );
 }
 
 export default AnimatingLineGraph
-
-// const StyledDiv = styled.div`
-// border:1px solid pink; 
-// `
 
 const StaticPath1 = styled.path`
     stroke: ${({ stroke }) => stroke};
@@ -112,15 +102,8 @@ const StaticPath2 = styled.path`
     stroke-dasharray: 5,5; 
     fill: none;
     stroke-width:2;
-    // fill: lightsteelblue;
-    // stroke-width: 1;
 `
 const StyledSvg = styled.svg`
-    // path {
-    //     stroke: ${({ stroke }) => stroke};
-    //     
-    //     fill: none;
-    // }
     margin: 1rem;
     border:1px solid blue; 
 `
