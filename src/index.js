@@ -2,11 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import FloatBarChart from './floatBarChart/FloatBarChart'
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
+    <FloatBarChart />
   </React.StrictMode>,
   document.getElementById('root')
 );

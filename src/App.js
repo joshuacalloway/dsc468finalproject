@@ -95,7 +95,7 @@ function App() {
           <button onClick={incrementDate}>Next Date</button>
           <button onClick={resetDate}>Reset Date</button>
 
-          <USA tooltipsEnabled={true} result={filteredResults} onClick={() => alert('clicked USA')} />
+        <USA tooltipsEnabled={true} result={filteredResults} onClick={() => alert('clicked USA')} />
         </StyledVerticalDiv>
         <StyledHorizontalDiv>
         <TwitterTimelineEmbed

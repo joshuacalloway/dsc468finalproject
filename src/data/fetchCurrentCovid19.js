@@ -36,6 +36,17 @@ const fetchDailyCovidData = (setError=noop, setResult=noop, setLoading=noop) => 
     return { };
 }
 
+const fetchDailyStateData = (setResult=noop) => {
+    axios.get('https://covidtracking.com/api/v1/states/daily.json')
+        .then(({data, status}) => {
+            // console.log('in axios, then, data is ', data)
+            setResult(data)
+        })
+   
+    return { };
+    
+}
 
-export {fetchCurrentCovid19, fetchDailyCovidData}
+
+export {fetchCurrentCovid19, fetchDailyCovidData,fetchDailyStateData }
 
