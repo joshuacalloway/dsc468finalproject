@@ -10,7 +10,7 @@ const FloatBarChart = () => {
     const startDate = new Date(Date.UTC(2020, 0, 22)) // first case is 2020/01/22 in WA
     const endDate = new Date(Date.UTC(2020,5,29)) // till now
     const [date, setDate] = useState([])
-    const [state, setState] = useState('IL')
+    const [state, setState] = useState('TX')
     const [data, setData] = useState([])
     const padding = 5
 
