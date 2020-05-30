@@ -11,7 +11,7 @@ let MapVis = function (geojson, covidjson, canvasRef) {
             let svg = d3.select(canvasRef.current)
                 .append("svg")
                 .attr("id", "hexagon_map")
-                .attr("width", "440")
+                .attr("width", "740")
                 .attr("height", "300")
 
             //const svg = d3.select("#hexagon_map")
@@ -180,8 +180,7 @@ let MapVis = function (geojson, covidjson, canvasRef) {
             let w = 120,
                 h = 300;
 
-            var key = svg.select('.legend')
-                .append("g")
+            var key = svg.append("g")
                 .attr("width", w)
                 .attr("height", h)
                 .attr("class", "legend")
@@ -207,10 +206,10 @@ let MapVis = function (geojson, covidjson, canvasRef) {
                 .attr("stop-opacity", 1);
 
             key.append("rect")
-                .attr("width", w - 100)
+                .attr("width", w-100)
                 .attr("height", h)
                 .style("fill", "url(#gradient_1)")
-                .attr("transform", "translate(10,10)");
+                .attr("transform", "translate(470,10)");
 
             var y = d3.scaleLinear()
                 .range([h, 0])
@@ -220,7 +219,7 @@ let MapVis = function (geojson, covidjson, canvasRef) {
 
             key.append("g")
                 .attr("class", "y axis")
-                .attr("transform", "translate(30,10)")
+                .attr("transform", "translate(490,10)")
                 .call(yAxis)
 
         }

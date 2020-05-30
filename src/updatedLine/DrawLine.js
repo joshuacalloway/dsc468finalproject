@@ -1,21 +1,59 @@
-
 import * as d3 from 'd3';
 
+const getYmax=function(data){
+    let ymax = 0;
+    let ymin=100000000000;
+        
+        
+        for (let i = 0; i < data.length; i++) {
+            let values = data[i].values;
+            for (let j = 0; j < values.length; j++) {
+                let v = values[j].value;
+                if(v<ymin){
+                    ymin=v;
+                }
+                if (v > ymax) {
+                    ymax = v;
+                }
+            }
+            
+        }
+    return [ymax,ymin];
+}
 
 
-const DrawLine = (data,canvasRef) => {
+const DrawLine = (summary, canvasRef) => {
 
-    
-   
-    
+
+
+
     //const canvasRef = useRef();
 
-    const drawLine = data => {
+    const drawLine = summary => {
+        let data=summary.confirmed;
         let canvas_width = 800;
         let canvas_height = 400;
+        d3.select(canvasRef.current).select('#lineButton').remove();
+        d3.select(canvasRef.current).append('select')
+        .attr('id', 'lineButton')
+        .style('position','absolute')
+        .style("left", "30px")
+        .style("top", "500px");
+        let allGroup = ["confirmed", "deaths", "recovered"];
+        d3.select("#lineButton")
+            .selectAll('myOptions')
+            .data(allGroup)
+            .enter()
+            .append('option')
+            .text(function (d) {
+                return d;
+            }) // text showed in the menu
+            .attr("value", function (d) {
+                return d;
+            })
+
         d3.select(canvasRef.current).select('#stateline').remove()
-       
-        var svg = d3.select(canvasRef.current).append("svg").attr('id','stateline')
+        var svg = d3.select(canvasRef.current).append("svg").attr('id', 'stateline')
         svg.attr('width', canvas_width).attr('height', canvas_height);
         const margin = {
             top: 20,
@@ -30,10 +68,10 @@ const DrawLine = (data,canvasRef) => {
         let parseDate = d3.timeParse('%Y-%m-%d');
 
         let color = d3.scaleOrdinal(d3.schemeCategory10);
-        const x = d3.scaleTime()
+        let x = d3.scaleTime()
             .domain(d3.extent(data[0].values, d => parseDate(d.date)))
             .range([0, width]);
-
+        
         let ymax = 0;
         let open = true;
         let dates = [];
@@ -53,7 +91,7 @@ const DrawLine = (data,canvasRef) => {
             }
             open = false;
         }
-        const y = d3.scaleLinear()
+        let y = d3.scaleLinear()
             .domain([0, ymax])
             .range([height, 0]);
 
@@ -67,8 +105,8 @@ const DrawLine = (data,canvasRef) => {
 
         // Add the axes and a title
         const xAxis = d3.axisBottom(x).ticks(6);
-        const yAxis = d3.axisLeft(y);
-        chart.append('g').call(yAxis);
+        let yAxis = d3.axisLeft(y);
+        chart.append('g').attr('id','yaxis').call(yAxis);
         chart.append('g').attr('transform', 'translate(0,' + height + ')').call(xAxis);
         //chart.append('text').html('Cases Over Time').attr('x', 200);
 
@@ -99,13 +137,15 @@ const DrawLine = (data,canvasRef) => {
             .text(function (d) {
                 return d.state;
             })
-            .style('fill','white')
-            .style('font-size','10px');
+            .style('fill', 'white')
+            .style('font-size', '10px');
         d3.select(canvasRef.current).select('#tooltip').remove()
         d3.select(canvasRef.current).append('div').attr('id', 'tooltip')
             .style('position', 'absolute')
             .style('background-color', 'lightgray')
             .style('padding', '5px');
+
+
 
         var lineOpacity = 1;
         var lineStroke = "2px";
@@ -126,6 +166,48 @@ const DrawLine = (data,canvasRef) => {
             .attr('stroke-width', 2)
             .datum(d => d.values)
             .attr('d', line);
+
+        d3.select("#lineButton").on("change", function (d) {
+            // recover the option that has been chosen
+            var selectedOption = d3.select(this).property("value")
+            // run the updateChart function with this selected option
+            update(selectedOption)
+        })
+
+        // A function that update the chart
+        function update(selectedGroup) {
+
+            // Create new data with the selection?
+            data=summary[selectedGroup]
+            let ys=getYmax(data);
+            let ymin=ys[1];
+            let ymax=ys[0];
+            y = d3.scaleLinear()
+            .domain([ymin, ymax])
+            .range([height, 0]);
+            yAxis = d3.axisLeft(y);
+            chart.select('#yaxis').remove();
+            chart.append('g').attr('id','yaxis').call(yAxis);
+            console.log('change data',data)
+            // Give these new data to update line
+            chart.selectAll('.lines').remove();
+            chart.selectAll('.lines')
+                .data(data).enter().append('g')
+                .attr('class', 'lines')
+                .attr('id', function (d, i) {
+                    return 'line-' + i;
+                })
+                .append('path')
+                .attr('fill', 'none')
+                .attr('stroke', function (d, i) {
+                    return color(i)
+                })
+                .attr('stroke-width', 2)
+                .datum(d => d.values)
+                .attr('d', line);
+        }
+
+
 
         tipBox = chart.append('rect')
             .attr('width', width)
@@ -166,13 +248,13 @@ const DrawLine = (data,canvasRef) => {
                 .append('div')
                 .style('color', (d, i) => color(i))
                 .html(d => d.state + ': ' + d.values[i].value);
-            
+
         }
-        //d3.select(canvasRef.current).select('#stateline').remove()
+
     }
-    drawLine(data);
-    
+    drawLine(summary);
+
 }
 
- 
+
 export default DrawLine;

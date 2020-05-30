@@ -24,13 +24,23 @@ function Combined({geojson,covidjson,deaths,recovered}) {
         let MC=MapVis(geojson,covidjson,canvasRef);
         MC.DrawMap();
         let SV=ScatterVis(covidjson,deaths,recovered);
-
+        
+        
+        
         MC.dispatch.on("selected",function(data){
-            console.log('passed data is',data)
             let totalStateSummary=createStateSummary(covidjson,data,"confirmed");
-            DrawLine(totalStateSummary,canvasRef);
+            let tataldeathSummary=createStateSummary(deaths,data,"deaths");
+            let totalrecoverSummary=createStateSummary(recovered,data,"recovered");
+            let summary={};
+            summary['confirmed']=totalStateSummary;
+            summary['deaths']=tataldeathSummary;
+            summary['recovered']=totalrecoverSummary;
+            console.log('passed data is',data)
+            
+            DrawLine(summary,canvasRef);
             console.log(totalStateSummary);
             let totalPercentSummary=createChangeSummary(covidjson,data,"confirmed");
+            
             DrawPercentLine(totalPercentSummary,canvasRef)
             
             SV.drawScatter(data,canvasRef);
