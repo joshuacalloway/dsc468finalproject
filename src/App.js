@@ -78,28 +78,64 @@ function App() {
     return deathArr;
   }
 
+  const height = 450;
+
   return (
     <StyledVerticalDiv id="theApp" className="App">
-        <StyledVerticalDiv>
-          <DeathCounter totalDeath={calculateTotalDeath(filterResultByDate(result, date))} date={date} />
-          <CovidImageGallery/>
-          {/* <TwitterTimelineEmbed
-          sourceType="profile"
-          screenName="saurabhnemade"
-          options={{ height: 40, width:800 }}
-        /> */}
-          <button onClick={incrementDate}>Next Date</button>
-          <button onClick={resetDate}>Reset Date</button>
+        {/* <DeathCounter totalDeath={calculateTotalDeath(filterResultByDate(result, date))} date={date} /> */}
+        <button onClick={incrementDate}>Next Date</button>
+        <button onClick={resetDate}>Reset Date</button>
+        <OverlayContainer width={800} height={height}>
+          <FirstLayer>
+          <CovidImageGallery className="firstLayer" index={dateIndex} width={800} height={height}/>
+          </FirstLayer>
+          <SecondLayer>
+          <USA className="secondLayer" width={800} height={height} tooltipsEnabled={true} result={filteredResults} onClick={() => alert('clicked USA')} />
+          </SecondLayer>
+        </OverlayContainer>
 
-          <USA width={900} height={600} tooltipsEnabled={true} result={filteredResults} onClick={() => alert('clicked USA')} />
-        </StyledVerticalDiv>
-        <StyledHorizontalDiv>
-
-          <CovidDeathLineGraph index={dateIndex} date={date} data={calculateDeathArr(result, startDate, endDate).map(x => x.TotalDeath)} width={900} marginLeft={20} marginRight={60} marginTop={20} height={400} />
-        </StyledHorizontalDiv>
+        <CovidDeathLineGraph index={dateIndex} date={date} data={calculateDeathArr(result, startDate, endDate).map(x => x.TotalDeath)} width={800} marginLeft={20} marginRight={60} marginTop={20} height={400} />
       </StyledVerticalDiv>
   );
 }
+const OverlayContainer = styled.div`
+  width:  ${({ width }) => width}px;
+  height:  ${({ height }) => height}px;
+  margin-bottom:5rem;
+  position: relative;
+  .firstLayer {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50px;
+    left: 0;
+  }
+  .secondLayer {
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+`
+
+const FirstLayer = styled.div`
+width: 100%;
+height: 100%;
+position: absolute;
+top: 0;
+left: 0;
+`
+const SecondLayer = styled.div`
+z-index: 10;
+width: 100%;
+height: 100%;
+position: absolute;
+top: 0;
+left: 0;
+`
+
 const StyledVerticalDiv = styled.div`
   display: flex;
   flex-direction: column;

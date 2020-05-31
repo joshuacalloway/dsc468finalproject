@@ -51,7 +51,6 @@ const CovidDeathLineGraph = ({
 
     }, [data, height, index, line, line2, x, y])
 
-    const graphRef = useRef()
     const firstPartPathRef = useRef()
     const firstPartPathFillRef = useRef()
     const secondPartPathRef = useRef()

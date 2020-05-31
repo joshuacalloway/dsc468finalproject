@@ -38,7 +38,7 @@ const Container = styled.div`
   flex-direction: column;
   font-size: 0.8rem;
   pointer-events: none;
-  z-index: 2;
+  z-index: 50;
 
   &.attached {
     position: absolute;

@@ -12,7 +12,7 @@ const MovingDate = ({x,y, dateFormatted}) => {
     const xMoved = x + 5
 
     return (
-        <g id="movingDate" class="tick" transform={`translate(${xMoved},${y})`}>
+        <g id="movingDate" className="tick" transform={`translate(${xMoved},${y})`}>
             <StyledBorderRect ref={borderRectRef} />
             <StyledRect ref={rectRef} />
             <StyledText transform="rotate(45)" ref={textRef} x="9" dy="0.32em">{dateFormatted}</StyledText>

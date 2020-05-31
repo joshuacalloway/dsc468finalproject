@@ -1,34 +1,29 @@
-import React, {useRef, useEffect} from 'react'
+import React, { useRef, useEffect } from 'react'
 
-import ImageGallery from 'react-image-gallery';
-import "react-image-gallery/styles/css/image-gallery.css";
-// import ReactBnbGallery from 'react-bnb-gallery'
-// import covid19march from '../../public/covid19march.jpg'
+import styled from 'styled-components'
+import CrossfadeImage from 'react-crossfade-image'
 
 const images = [
-    {
-      original: `${process.env.PUBLIC_URL}/covid19march.jpg`,
-      thumbnail: 'https://picsum.photos/id/1018/250/150/',
-    },
-    {
-      original: 'https://picsum.photos/id/1015/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1015/250/150/',
-    },
-    {
-      original: 'https://picsum.photos/id/1019/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1019/250/150/',
-    },
-  ];
-
-const CovidImageGallery = () => {
+    'white.png',
+    'covid19march.jpg',
+    'covid19april.jpg',
+    'covid19may30.jpg'
+]
+const CovidImageGallery = ({ index, width, height }) => {
     const galleryRef = useRef()
+    const moduleDiv = images.length
+    const getImage = (i) => `${process.env.PUBLIC_URL}/${images[i % moduleDiv]}`
 
-    useEffect(() => {
-        galleryRef.current.play()
-    })
-    return <ImageGallery ref={galleryRef} showThumbnails={false} items={images} />;
-
-
+    return (
+        <StyledDiv>
+            <CrossfadeImage ref={galleryRef} delay={1000} duration={6000} width={width} height={height} src={getImage(index)} />
+        </StyledDiv>
+    )
 }
 
 export default CovidImageGallery
+
+const StyledDiv = styled.div`
+    opacity:1;
+    object-fit: cover;
+`

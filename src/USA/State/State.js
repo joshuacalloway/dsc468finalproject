@@ -43,5 +43,6 @@ export default State
 const StyledPath = styled.path`
     stroke: green;
     stroke-width: 1;
+    opacity:0.9;
     fill:  ${({ colorFunction, confirmed, death }) => colorFunction(death)};
 `
