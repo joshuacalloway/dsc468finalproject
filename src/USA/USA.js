@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import * as d3 from 'd3'
 
-const USA = ({ result, onClick, tooltipsEnabled }) => {
+const USA = ({ width, height, result, onClick, tooltipsEnabled }) => {
     const [resultByState, setResultByState] = useState(null)
 
     useEffect(() => {
@@ -19,9 +19,6 @@ const USA = ({ result, onClick, tooltipsEnabled }) => {
     const canvasRef = useRef();
     const svg = useRef()
     const states = ['Wyoming', 'Washington', 'Alaska', 'Colorado', 'Florida', 'North Carolina', 'South Carolina', 'Virginia', 'New Hampshire', 'Iowa', 'Nebraska', 'Louisiana', 'Delaware', 'Arizona', 'Arkansas', 'Connecticut', 'South Dakota', 'North Dakota', 'Kentucky', 'Michigan', 'Pennsylvania', 'Maine', 'Vermont', 'Massachusetts', 'Maryland', 'Mississippi', 'New Mexico', 'Connecticut', 'Rhode Island', 'West Virginia', 'Wisconsin', 'Puerto Rico', 'District of Columbia', 'Hawaii', 'Nevada', 'Oregon', 'Idaho', 'Ohio', 'Minnesota', 'Utah', 'Montana', 'Minnesota', 'California', 'Texas', 'Illinois', 'Indiana', 'Georgia', 'Alabama', 'Missouri', 'Kansas', 'Tennessee', 'Oklahoma', 'New York']
-
-    let width = 960;
-    let height = 500;
     let projection = d3.geoAlbersUsa()
         .translate([width / 2, height / 2]) // translate to center of screen
         .scale([1000]); // scale things down so see entire US
@@ -44,13 +41,8 @@ const USA = ({ result, onClick, tooltipsEnabled }) => {
 
     const getColorFunction = () => {
         const bloodRed = '#9b0000'
-
         let lowColor = '#ffffff';
-      //  let lowColor = 'pink'
         let highColor = bloodRed;
-
-    
-        let minVal = 0;
         let maxVal = 100000;
         let colorFunction = d3.scaleLog().clamp(true).domain([0.1, maxVal]).range([lowColor, highColor])
         return colorFunction
@@ -69,12 +61,11 @@ const USA = ({ result, onClick, tooltipsEnabled }) => {
     return (
         <StyledDiv>
             <div ref={canvasRef} onClick={onClick}>
-                <svg ref={svg} width={960} height={500}>
+                <svg ref={svg} width={width} height={height}>
                     <g>
                         {states.map(state => drawEachState(state))}
                     </g>
                 </svg>
-
             </div>
         </StyledDiv>
     );

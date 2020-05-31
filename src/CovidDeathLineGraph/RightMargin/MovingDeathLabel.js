@@ -24,7 +24,7 @@ const MovingDeathLabel = ({ currentDeathNumbersYScaled, currentDeathNumbers }) =
             .attr("height", text.height)
     })
     return (
-        <g id="movingDeathLabel" class="tick" transform={`translate(0,${currentDeathNumbersYScaled})`}>
+        <g id="movingDeathLabel" className="tick" transform={`translate(0,${currentDeathNumbersYScaled})`}>
             <StyledBorderRect ref={borderRectRef} />
             <StyledRect ref={rectRef} />
             <StyledText ref={textRef} x="9" dy="0.32em">{deathNumbersFormatted}</StyledText>

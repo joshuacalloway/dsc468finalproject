@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import USA from './USA'
 import { fetchDailyCovidData } from './data'
 import CovidDeathLineGraph from './CovidDeathLineGraph'
+import CovidImageGallery from './CovidImageGallery'
 import styled from 'styled-components'
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import DeathCounter from './DeathCounter'
@@ -81,19 +82,20 @@ function App() {
     <StyledVerticalDiv id="theApp" className="App">
         <StyledVerticalDiv>
           <DeathCounter totalDeath={calculateTotalDeath(filterResultByDate(result, date))} date={date} />
+          <CovidImageGallery/>
+          {/* <TwitterTimelineEmbed
+          sourceType="profile"
+          screenName="saurabhnemade"
+          options={{ height: 40, width:800 }}
+        /> */}
           <button onClick={incrementDate}>Next Date</button>
           <button onClick={resetDate}>Reset Date</button>
 
-          <USA tooltipsEnabled={true} result={filteredResults} onClick={() => alert('clicked USA')} />
+          <USA width={900} height={600} tooltipsEnabled={true} result={filteredResults} onClick={() => alert('clicked USA')} />
         </StyledVerticalDiv>
         <StyledHorizontalDiv>
-        <TwitterTimelineEmbed
-          sourceType="profile"
-          screenName="saurabhnemade"
-          options={{ height: 400 }}
-        />
-          {/* <div><div className={"label"}>Enable or Disable Tooltips </div> {enableTooltipToggleButton}</div> */}
-          <CovidDeathLineGraph index={dateIndex} date={date} data={calculateDeathArr(result, startDate, endDate).map(x => x.TotalDeath)} width={800} marginLeft={20} marginRight={60} marginTop={20} height={400} />
+
+          <CovidDeathLineGraph index={dateIndex} date={date} data={calculateDeathArr(result, startDate, endDate).map(x => x.TotalDeath)} width={900} marginLeft={20} marginRight={60} marginTop={20} height={400} />
         </StyledHorizontalDiv>
       </StyledVerticalDiv>
   );
