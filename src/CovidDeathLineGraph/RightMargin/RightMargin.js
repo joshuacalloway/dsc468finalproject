@@ -12,11 +12,11 @@ const RightMargin = ({ yfunction, currentDeathNumbers, currentDeathNumbersYScale
             <g transform={`translate(${marginX},0)`}>
                 <StyledVerticalPath id="verticalLineAxis" d="M0.5,400.5V20" className="domain"></StyledVerticalPath>
                 <MovingDeathLabel width={width} marginRight={marginRight} currentDeathNumbersYScaled={currentDeathNumbersYScaled} currentDeathNumbers={currentDeathNumbers} />
-                <RightTickForRightMargin value={10000} yfunction={yfunction} />
-                <RightTickForRightMargin value={30000} yfunction={yfunction} />
-                <RightTickForRightMargin value={50000} yfunction={yfunction} />
-                <RightTickForRightMargin value={70000} yfunction={yfunction} />
-                <RightTickForRightMargin value={90000} yfunction={yfunction} />
+                <RightTickForRightMargin value={10000} currentDeathNumbers={currentDeathNumbers} yfunction={yfunction} />
+                <RightTickForRightMargin value={30000} currentDeathNumbers={currentDeathNumbers} yfunction={yfunction} />
+                <RightTickForRightMargin value={50000} currentDeathNumbers={currentDeathNumbers} yfunction={yfunction} />
+                <RightTickForRightMargin value={70000} currentDeathNumbers={currentDeathNumbers} yfunction={yfunction} />
+                <RightTickForRightMargin value={90000} currentDeathNumbers={currentDeathNumbers} yfunction={yfunction} />
             </g>
         </>
     )

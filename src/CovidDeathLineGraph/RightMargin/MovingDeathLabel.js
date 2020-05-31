@@ -46,5 +46,5 @@ const StyledText = styled.text`
     z-index:999999999;
     text-anchor:start;
     font-size:14px;
-    stroke:white;
+    stroke:black;
 `
