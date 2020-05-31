@@ -1,6 +1,7 @@
 
 import * as d3 from 'd3';
-
+import stateHash from '../Data/states_hash.json';
+import calc_sum from '../scatterPlot/calc_sum';
 let MapVis = function (geojson, covidjson, canvasRef) {
     let newMap = {
         dispatch: d3.dispatch('selected'),
@@ -25,19 +26,9 @@ let MapVis = function (geojson, covidjson, canvasRef) {
             const path = d3.geoPath()
                 .projection(projection)
 
-            let summary = {};
-            for (let i = 0; i < covidjson.length; i++) {
-                let data_point = covidjson[i];
-                if (data_point.Status === "confirmed") {
-                    if (data_point.Province in summary) {
-                        summary[data_point.Province] = summary[data_point.Province] + data_point['Cases'] + 1;
-                    } else {
-                        summary[data_point.Province] = data_point['Cases'] + 1;
-                        //console.log(data_point.Province.length);
-                    }
-                }
-            }
-            delete summary[""];
+            
+            let summary = calc_sum(covidjson,'positiveIncrease');
+            console.log('map summary is ',summary)
             let states = Object.keys(summary);
             let values = Object.values(summary);
 
@@ -47,7 +38,7 @@ let MapVis = function (geojson, covidjson, canvasRef) {
 
             let minVal = d3.min(values);
             let maxVal = d3.max(values);
-            let color = d3.scaleLog().domain([minVal, maxVal]).range([lowColor, highColor])
+            let color = d3.scaleSqrt().domain([minVal, maxVal]).range([lowColor, highColor])
             //let logScale = d3.scaleLog().domain([minVal, maxVal]).range([])
 
 

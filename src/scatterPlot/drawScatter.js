@@ -1,13 +1,13 @@
 import calc_sum from "./rateCompute";
 import compute_rate from "./rateCompute";
 import * as d3 from 'd3';
-let ScatterVis = function (confirm, death, recovered) {
+let ScatterVis = function (covidjson) {
     
     var newScatter = {
         dispatch: d3.dispatch('selected'),
         statesClicked: [],
         drawScatter: function (data, canvasRef) {
-            let rates = compute_rate(data, confirm, death, recovered)
+            let rates = compute_rate(data, covidjson)
             console.log('rates is ',rates)
             let margin = {
                 top: 20,
@@ -20,7 +20,7 @@ let ScatterVis = function (confirm, death, recovered) {
             let zmax = 0
             let zmin = 100000000;
             for (let i = 0; i < rates.length; i++) {
-                let xv = rates[i]['recover_rate'];
+                let xv = rates[i]['hospital_rate'];
                 let yv = rates[i]['death_rate'];
                 let zv = rates[i]['confirmed_toll'];
                 if (xv > xmax) {xmax = xv};
@@ -52,7 +52,7 @@ let ScatterVis = function (confirm, death, recovered) {
 
             let y = d3.scaleLinear()
                 .domain([0,ymax+0.05])
-                .range([0, height]);
+                .range([height, 0]);
 
             let z = d3.scaleSqrt()
                 .domain([0, 20000])
@@ -67,7 +67,7 @@ let ScatterVis = function (confirm, death, recovered) {
                 .attr("x", width)
                 .attr("dy", "3em")
                 .attr("text-anchor", "end")
-                .text("Recoverd Rate");
+                .text("Hospitalized Rate");
 
             var legend = svg.selectAll('#scatterplot.legend')
             .data(rates)
@@ -115,8 +115,8 @@ let ScatterVis = function (confirm, death, recovered) {
                 .append("circle")
 
                 .attr("cx", function (d) {
-                    console.log('recover rate is ',x(d.recover_rate));
-                    return x(d['recover_rate']);
+                    console.log('hospital rate is ',x(d.hospital_rate));
+                    return x(d['hospital_rate']);
                 })
                 .attr("cy", function (d) {
                     console.log('death rate is ',y(d.death_rate));
@@ -127,19 +127,20 @@ let ScatterVis = function (confirm, death, recovered) {
                 .on("mouseover", function (d) {
                     d3.select(this)
                         .style("cursor", "pointer")
-                        .style("fill", 'white')
+                        //.style("fill", 'white')
                         .append("text")
                         .attr("class", "text")
-                        .text(`${d.state}`)
-                        .attr("x", d => x(d.recover_rate))
+                        .text(d=>d.confirmed_toll)
+                        //.style('fill','white')
+                        .attr("x", d => x(d.hospital_rate))
                         .attr("y", d => y(d.death_rate) - 5);
                         
                 })
-                .on("mouseout", function (d) {
+                .on("mouseout", function (d,i) {
                     console.log('this is:', this);
                     d3.select(this)
                         .style("cursor", "none")
-                        .style("fill", (d,i)=>color(i))
+                        //.style("fill", (d,i)=>color(i))
                         .transition()
                         .duration(100)
                         .selectAll(".text").remove();

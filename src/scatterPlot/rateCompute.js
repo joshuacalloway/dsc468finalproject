@@ -1,30 +1,17 @@
-const calc_sum=function(covidjson,status){
-let summary = {};
-for (let i = 0; i < covidjson.length; i++) {
-    let data_point = covidjson[i];
-    if (data_point.Status === status) {
-        if (data_point.Province in summary) {
-            summary[data_point.Province] = summary[data_point.Province] + data_point['Cases']+1;
-        } else {
-            summary[data_point.Province] = data_point['Cases']+1;
-            //console.log(data_point.Province.length);
-        }
-    }
-}
-return summary;
-}
+import stateHash from '../Data/states_hash.json';
+import calc_sum from'./calc_sum';
 //export default calc_sum;
 
-const computer_rate = function(states,confirmed,death,recover){
-    let c_sum = calc_sum(confirmed, 'confirmed');
-    let r_sum = calc_sum(recover, 'recovered');
-    let d_sum = calc_sum(death, 'deaths');
+const computer_rate = function(states,data){
+    let c_sum = calc_sum(data, "positiveIncrease");
+    let r_sum = calc_sum(data, "hospitalizedIncrease");
+    let d_sum = calc_sum(data, "deathIncrease");
     //console.log('d_sum is ',d_sum)
     let result=[];
     for(let i=0;i<states.length;i++){
         let state=states[i];
         let temp={}
-        temp['recover_rate']=(r_sum[state]/c_sum[state]);
+        temp['hospital_rate']=(r_sum[state]/c_sum[state]);
         temp['death_rate']=(d_sum[state]/c_sum[state]);
         temp['confirmed_toll']=c_sum[state];
         temp['state']=state;

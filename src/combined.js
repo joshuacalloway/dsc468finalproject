@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 import * as d3 from 'd3';
 import styled from 'styled-components';
-
+import axios from 'axios';
 import createStateSummary from "./updatedLine/createStateSummary";
 import DrawLine from "./updatedLine/DrawLine";
 import MapVis from "./HexagonMap/drawMap";
@@ -15,35 +15,51 @@ function Combined({geojson,covidjson,deaths,recovered}) {
 
     //call component 
     useEffect(() => {
-       Draw(geojson,covidjson,deaths,recovered)
+        const link='https://covidtracking.com/api/v1/states/daily.json';
+        axios.get(link)
+        .then(response => {
+            Draw(geojson,response.data)
+        }, error => {
+            console.log(error);});
+       
     })
 
     const canvasRef = useRef();
     
-    const Draw = function(geojson,covidjson,deaths,recovered){
-        let MC=MapVis(geojson,covidjson,canvasRef);
+    
+    
+    
+
+    const Draw = function(geojson,data){
+        let MC=MapVis(geojson,data,canvasRef);
         MC.DrawMap();
-        let SV=ScatterVis(covidjson,deaths,recovered);
+        let SV=ScatterVis(data);
         
         
         
-        MC.dispatch.on("selected",function(data){
-            let totalStateSummary=createStateSummary(covidjson,data,"confirmed");
-            let tataldeathSummary=createStateSummary(deaths,data,"deaths");
-            let totalrecoverSummary=createStateSummary(recovered,data,"recovered");
+        MC.dispatch.on("selected",function(states){
+            let totalStateSummary=createStateSummary(data,states,"positiveIncrease");
+            let tataldeathSummary=createStateSummary(data,states,"deathIncrease");
+            let totalhospitalSummary=createStateSummary(data,states,"hospitalizedIncrease");
             let summary={};
             summary['confirmed']=totalStateSummary;
             summary['deaths']=tataldeathSummary;
-            summary['recovered']=totalrecoverSummary;
+            summary['hospitalized']=totalhospitalSummary;
             console.log('passed data is',data)
             
             DrawLine(summary,canvasRef);
-            console.log(totalStateSummary);
-            let totalPercentSummary=createChangeSummary(covidjson,data,"confirmed");
             
-            DrawPercentLine(totalPercentSummary,canvasRef)
+            let totalPercentSummary=createChangeSummary(data,states,"positiveIncrease");
+            let PercentdeathSummary=createChangeSummary(data,states,"deathIncrease");
+            let PercenthospitalSummary=createChangeSummary(data,states,"hospitalizedIncrease");
+            let psummary={};
+            psummary['confirmed']=totalPercentSummary;
+            psummary['deaths']=PercentdeathSummary;
+            psummary['hospitalized']=PercenthospitalSummary;
             
-            SV.drawScatter(data,canvasRef);
+            DrawPercentLine(psummary,canvasRef)
+            
+            SV.drawScatter(states,canvasRef);
         });
             
 

@@ -30,6 +30,8 @@ const DrawLine = (summary, canvasRef) => {
     //const canvasRef = useRef();
 
     const drawLine = summary => {
+        
+        
         let data=summary.confirmed;
         let canvas_width = 800;
         let canvas_height = 400;
@@ -39,7 +41,7 @@ const DrawLine = (summary, canvasRef) => {
         .style('position','absolute')
         .style("left", "30px")
         .style("top", "500px");
-        let allGroup = ["confirmed", "deaths", "recovered"];
+        let allGroup = ["confirmed", "deaths", "hospitalized"];
         d3.select("#lineButton")
             .selectAll('myOptions')
             .data(allGroup)
@@ -65,11 +67,21 @@ const DrawLine = (summary, canvasRef) => {
         const height = 400 - margin.top - margin.bottom;
 
         // Define the scales and tell D3 how to draw the line
-        let parseDate = d3.timeParse('%Y-%m-%d');
+        let parseDate =d3.timeParse('%Y%m%d');
 
         let color = d3.scaleOrdinal(d3.schemeCategory10);
+        let maxlength=0;
+        let maxi=0;
+        for(let i=0;i<data.length;i++){
+            let length=data[i].values.length;
+            if(length>maxlength){
+                maxi=i;
+                maxlength=length;
+            }
+
+        }
         let x = d3.scaleTime()
-            .domain(d3.extent(data[0].values, d => parseDate(d.date)))
+            .domain(d3.extent(data[maxi].values, d => parseDate(d.date)))
             .range([0, width]);
         
         let ymax = 0;
@@ -80,7 +92,7 @@ const DrawLine = (summary, canvasRef) => {
             let values = data[i].values;
             for (let j = 0; j < values.length; j++) {
                 let v = values[j].value;
-                if (open) {
+                if (open && i==maxi) {
                     dates.push(parseDate(values[j].date));
                     dates_content.push(values[j].date);
                 }
@@ -178,6 +190,7 @@ const DrawLine = (summary, canvasRef) => {
         function update(selectedGroup) {
 
             // Create new data with the selection?
+            let lookup={};
             data=summary[selectedGroup]
             let ys=getYmax(data);
             let ymin=ys[1];
@@ -231,9 +244,11 @@ const DrawLine = (summary, canvasRef) => {
             console.log('x0', x0);
             console.log('dates', dates);
             let i = bisectDate(dates, x0, 1);
+            console.log('i is ',i)
+
             let date = dates[i];
 
-            tooltipLine.attr('stroke', 'black')
+            tooltipLine.attr('stroke', 'white')
                 .attr('x1', x(date))
                 .attr('x2', x(date))
                 .attr('y1', 0)

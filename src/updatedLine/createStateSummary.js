@@ -1,23 +1,43 @@
+
+import stateHash from '../Data/states_hash.json';
+
 const createStateSummary = function (data,states,type) {
+    let WAdates=[]
+    for(let i=0;i<data.length;i++){
+        if(data[i].state==='WA'){
+            WAdates.push(data[i].date);
+        }
+    }
+
+    //console.log('statehas is ',stateHash);
     let summary = {};
     for(let i=0;i<states.length;i++){
         let state=states[i];
         summary[state]={};
+        for(let j=0;j<WAdates.length;j++){
+            let d=WAdates[j];
+            summary[state][d]=0;
+        }
     }
-    for (let i = 0; i < data.length; i++) {
+    let previous={};
+    for(let i=0;i<states.length;i++){
+        let state=states[i];
+        previous[state]=0;
+    }
+
+    for (let i = data.length-1; i >=0; i--) {
 
         let data_point = data[i];
-        let status=data_point['Status']
-        let state=data_point['Province']
-        if (status== type && states.includes(state)) {
+        
+        let state=stateHash[data_point['state']];
+        if (states.includes(state)) {
 
-            let date = data_point['Date'];
-            date = date.substring(0, 10);
-            if(date in summary[state]){
-                summary[state][date]+=data_point['Cases']+1;
-            } else {
-                summary[state][date]=data_point['Cases']+1;
-            }
+            let date = data_point['date'];
+            
+            summary[state][date]=data_point[type]+previous[state];
+            
+            previous[state]=summary[state][date];
+            
 
         }
     }
