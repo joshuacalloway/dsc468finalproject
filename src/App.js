@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import USA from './USA'
 import { fetchDailyCovidData } from './data'
-import AnimatingLineGraph from './AnimatingLineGraph'
+import CovidDeathLineGraph from './CovidDeathLineGraph'
 import styled from 'styled-components'
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import DeathCounter from './DeathCounter'
@@ -70,15 +70,10 @@ function App() {
     while (iter.getTime() <= endDate.getTime()) {
       const filtered = filterResultByDate2(result, iter);
       const total = calculateTotalDeath(filtered)
-      console.log("total is ", total, ", filtered for ", formatDate(iter), " is ", filtered)
-
       deathArr = [...deathArr, {Date: formatDate(iter), TotalDeath: total}]
-      console.log("iter before increment is ", formatDate(iter))
-
       iter = addDays(iter, 1)
-      console.log("iter after increment is ", formatDate(iter))
     }
-    console.log("useEffect, deathArr is ", deathArr)
+    // console.log("useEffect, deathArr is ", deathArr)
     return deathArr;
   }
 
@@ -98,7 +93,7 @@ function App() {
           options={{ height: 400 }}
         />
           {/* <div><div className={"label"}>Enable or Disable Tooltips </div> {enableTooltipToggleButton}</div> */}
-          <AnimatingLineGraph index={dateIndex} data={calculateDeathArr(result, startDate, endDate).map(x => x.TotalDeath)} width={'800'} height={'400'} />
+          <CovidDeathLineGraph index={dateIndex} date={date} data={calculateDeathArr(result, startDate, endDate).map(x => x.TotalDeath)} width={800} marginLeft={20} marginRight={60} marginTop={20} height={400} />
         </StyledHorizontalDiv>
       </StyledVerticalDiv>
   );
