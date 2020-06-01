@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import * as d3 from 'd3'
 
-const USA = ({ width, height, result, tooltipsEnabled }) => {
+const USA = ({ width, height, result, tooltipsEnabled, onStateClicked }) => {
     const [resultByState, setResultByState] = useState(null)
 
     useEffect(() => {
@@ -55,8 +55,7 @@ const USA = ({ width, height, result, tooltipsEnabled }) => {
         if (resultByState && resultByState.has(stateCode)) {
             result = resultByState.get(stateCode)
         }
-        console.log("Tooltipsenabled, ", tooltipsEnabled)
-        return <State tooltipsEnabled={tooltipsEnabled} result={result} svg={svg} path={path} name={name} geojson={geojson} colorFunction={getColorFunction()} />
+        return <State onStateClicked={onStateClicked} tooltipsEnabled={tooltipsEnabled} result={result} svg={svg} path={path} name={name} geojson={geojson} colorFunction={getColorFunction()} />
     }
 
     return (

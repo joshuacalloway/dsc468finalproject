@@ -95,6 +95,10 @@ function App() {
   const height = 400;
   const width = 500;
 
+  const onStateClicked = (stateCode) => {
+    console.log("onStateClicked, stateCode is ", stateCode)
+    setState(stateCode) 
+  }
   return (
     <ZoomApp id="ZoomApp">
       <ZoomWindow>
@@ -111,7 +115,7 @@ function App() {
         <ZoomParticipant width={width} height={height} name={"Covid Deaths across USA"}>
           <button onClick={incrementDate}>Next Date</button>
           <button onClick={resetDate}>Reset Date</button>
-          <USA width={width} height={height} tooltipsEnabled={true} result={filteredResults} />
+          <USA onStateClicked={onStateClicked} width={width} height={height} tooltipsEnabled={true} result={filteredResults} />
         </ZoomParticipant> 
         <ZoomParticipant width={width} height={height} name={"Corky"} onEnterMeeting={() => setPlayFarmAnimal(true)} onExitMeeting={() => setPlayFarmAnimal(false)} >
           <ReactPlayer width={width} height={height} url='https://www.youtube.com/watch?v=4EvwQO8VOMI' playing={playFarmAnimal} />
