@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import FloatBarChart from './floatBarChart/FloatBarChart'
+import FloatBarChart from './floatBarChart/FloatBarChart';
 import * as serviceWorker from './serviceWorker';
+import Slider_com from './Slider/Slider';
+
 
 ReactDOM.render(
   <React.StrictMode>

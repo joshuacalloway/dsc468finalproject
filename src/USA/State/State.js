@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Tooltip from './Tooltip';
-// import FloatBarChart from '../src/floatBarChart/FloatBarChart';
+// import FloatBarChart from './floatBarChart';
 
 
 const State = ({ result, tooltipsEnabled, geojson, colorFunction, name, onClick, svg, path }) => {
@@ -37,6 +37,8 @@ const State = ({ result, tooltipsEnabled, geojson, colorFunction, name, onClick,
                     </ul>
                     </div>
             </Tooltip>
+            {/* <FloatBarChart/> */}
+            
                 
         </>
     )
