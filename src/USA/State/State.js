@@ -10,7 +10,7 @@ const State = ({ result, tooltipsEnabled, geojson, colorFunction, name, path }) 
 
     const onMouseEnter = (e) => {
         setTooltipVisible(true)
-        setTooltipLocation({ x: e.pageX, y: e.pageY })
+        setTooltipLocation({ x: e.clientX, y: e.clientY })
     }
 
     const onMouseLeave = () => {
@@ -22,23 +22,25 @@ const State = ({ result, tooltipsEnabled, geojson, colorFunction, name, path }) 
         <>
             <StyledPath d={path(geojson)} onMouseEnter={onMouseEnter} death={death} onMouseLeave={onMouseLeave} colorFunction={colorFunction} positive={positive}>
             </StyledPath>
-            <Tooltip name={'Enable tooltips'} tooltipsEnabled={tooltipsEnabled} location={tooltipLocation} isVisible={tooltipVisible}>
-                <div>
+            <Tooltip id={`Tooltip${name}`} name={name} tooltipsEnabled={tooltipsEnabled} location={tooltipLocation} isVisible={tooltipVisible}>
+                <StyledDiv id="FindTooltip">
                     <h3>{name}</h3>
                     <hr/>
                     <ul>
                         <li>Confirmed: {positive}</li>
                         <li>death: {death}</li>
                         <li>recovered: {recovered}</li>
-                        <li>cF: {colorFunction(death)}</li>
                     </ul>
-                    </div>
+                    </StyledDiv>
             </Tooltip>
         </>
     )
 }
 
 export default State
+const StyledDiv = styled.div`
+    z-index:100;
+`
 
 const StyledPath = styled.path`
     stroke: green;

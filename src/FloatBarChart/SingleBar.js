@@ -23,10 +23,10 @@ const SingleBar = ({ x, y, width = 5, height, value, date }) => {
     return (
         <>
             <rect fill={color} x={x} y={y} width={width} height={height} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
-            <Tooltip name={'Enable tooltips'} tooltipsEnabled={tooltipVisible} location={tooltipLocation} isVisible={tooltipVisible}>
+            <Tooltip name={`Deathfor${date}`} tooltipsEnabled={tooltipVisible} location={tooltipLocation} isVisible={tooltipVisible}>
                 <div>
                     <li>date:{date}</li>
-                    <li>Confirmed:{value}</li>
+                    <li>Death:{value}</li>
                 </div>
             </Tooltip>
         </>

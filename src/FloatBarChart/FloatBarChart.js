@@ -11,7 +11,6 @@ const FloatBarChart = ({width,height, state, dailyjson}) => {
     useEffect(() => {
         dailyjson && setData(dailyjson.filter(item => item.state == state).map((item) => item)) 
     }, [dailyjson, state])
-    console.log("dataaa",data)
     
     const max = height
     var x = d3.scaleLinear().domain([0, 87]).range([0, 600])

@@ -55,6 +55,7 @@ const USA = ({ width, height, result, tooltipsEnabled }) => {
         if (resultByState && resultByState.has(stateCode)) {
             result = resultByState.get(stateCode)
         }
+        console.log("Tooltipsenabled, ", tooltipsEnabled)
         return <State tooltipsEnabled={tooltipsEnabled} result={result} svg={svg} path={path} name={name} geojson={geojson} colorFunction={getColorFunction()} />
     }
 

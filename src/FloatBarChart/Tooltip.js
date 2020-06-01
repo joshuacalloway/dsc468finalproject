@@ -7,7 +7,7 @@ const Tooltip = ({ children, location, tooltipsEnabled, isVisible }) => {
     const [node, setNode] = useState(null);
 
     useEffect(() => {
-        setNode(document.getElementById("theApp"));
+        setNode(document.getElementById("ZoomApp"));
     }, []);
     if (!node) {
         return null;
@@ -38,7 +38,7 @@ const Container = styled.div`
   flex-direction: column;
   font-size: 0.8rem;
   pointer-events: none;
-  z-index: 2;
+  z-index: 200;
 
   &.attached {
     position: absolute;

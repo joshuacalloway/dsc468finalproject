@@ -3,16 +3,16 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ReactDOM from 'react-dom';
 
-const Tooltip = ({ children, location, tooltipsEnabled, isVisible }) => {
+const Tooltip = ({ name, children, location, tooltipsEnabled, isVisible }) => {
     const [node, setNode] = useState(null);
 
     useEffect(() => {
-        setNode(document.getElementById("theApp"));
+        setNode(document.getElementById("ZoomApp"));
     }, []);
     if (!node) {
         return null;
     }
-
+    
     return ReactDOM.createPortal(
         <Container
             style={{

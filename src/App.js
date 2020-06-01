@@ -113,8 +113,8 @@ function App() {
           <button onClick={resetDate}>Reset Date</button>
           <USA width={width} height={height} tooltipsEnabled={true} result={filteredResults} />
         </ZoomParticipant> 
-        <ZoomParticipant width={width} height={height} name={"Farm animals"} onEnterMeeting={() => setPlayFarmAnimal(true)} onExitMeeting={() => setPlayFarmAnimal(false)} >
-          <ReactPlayer width={width} height={height} url='https://www.youtube.com/watch?v=PwazdGn6ldc' playing={playFarmAnimal} />
+        <ZoomParticipant width={width} height={height} name={"Corky"} onEnterMeeting={() => setPlayFarmAnimal(true)} onExitMeeting={() => setPlayFarmAnimal(false)} >
+          <ReactPlayer width={width} height={height} url='https://www.youtube.com/watch?v=4EvwQO8VOMI' playing={playFarmAnimal} />
         </ZoomParticipant>
 
         <ZoomParticipant width={width} height={height} name={"Covid Deaths By Date"}>
