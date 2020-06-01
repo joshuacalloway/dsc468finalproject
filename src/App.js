@@ -9,6 +9,8 @@ import ZoomWindow from './ZoomWindow'
 import ZoomParticipant from './ZoomParticipant';
 import ReactPlayer from 'react-player'
 import CountUp from 'react-countup';
+import Combined from './Combined'
+import geojson from './data/us_states_geojson.json'
 
 function App() {
   const startDate = new Date(Date.UTC(2020, 2,11,0,0))
@@ -108,6 +110,9 @@ function App() {
           <button onClick={resetDate}>Reset Date</button>
           <CovidDeathLineGraph index={dateIndex} date={date} data={calculateDeathArr(result, startDate, endDate).map(x => x.TotalDeath)} width={width} marginLeft={20} marginRight={60} marginTop={20} height={height} />
         </ZoomParticipant>
+        <ZoomParticipant width={width} height={height} name={"Covid Decision Support System"}>
+          <Combined  width={width} height={height} geojson={geojson} covidjson={result}></Combined>
+      </ZoomParticipant>
       </ZoomWindow>
 
     </ZoomApp>
