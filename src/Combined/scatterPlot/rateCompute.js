@@ -1,4 +1,3 @@
-import stateHash from '../../data/states_hash.json';
 import calc_sum from'./calc_sum';
 //export default calc_sum;
 
