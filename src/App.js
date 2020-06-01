@@ -11,6 +11,7 @@ import ReactPlayer from 'react-player'
 import CountUp from 'react-countup';
 import Combined from './Combined'
 import geojson from './data/us_states_geojson.json'
+import FloatBarChart from './FloatBarChart'
 
 function App() {
   const startDate = new Date(Date.UTC(2020, 2,11,0,0))
@@ -96,6 +97,7 @@ function App() {
           {/* {counter} */}
           <CovidImageGallery index={photoIndex} width={width} height={height}/>
         </ZoomParticipant>
+
         <ZoomParticipant width={width} height={height} name={"Covid Deaths across USA"}>
           <button onClick={incrementDate}>Next Date</button>
           <button onClick={resetDate}>Reset Date</button>
@@ -112,7 +114,12 @@ function App() {
         </ZoomParticipant>
         <ZoomParticipant width={width} height={height} name={"Covid Decision Support System"}>
           <Combined  width={width} height={height} geojson={geojson} covidjson={result}></Combined>
-      </ZoomParticipant>
+        </ZoomParticipant>
+
+        <ZoomParticipant width={width} height={height} name={"Covid Decision Support System"}>
+          <FloatBarChart width={width} height={height} />
+        </ZoomParticipant>
+        
       </ZoomWindow>
 
     </ZoomApp>
