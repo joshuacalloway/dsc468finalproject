@@ -6,7 +6,11 @@ import CrossfadeImage from 'react-crossfade-image'
 const images = [
     // 'white.png',
     'covid19march.jpg',
+    'covid19image2.jpg',
+    'covid19image1.jpg',
+    'covid19image4.png',
     'covid19april.jpg',
+    'covid19image3.jpg',
     'covid19may30.jpg'
 ]
 const CovidImageGallery = ({ index, width, height }) => {

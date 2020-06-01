@@ -8,6 +8,7 @@ import noop from 'lodash'
 import ZoomWindow from './ZoomWindow'
 import ZoomParticipant from './ZoomParticipant';
 import ReactPlayer from 'react-player'
+import CountUp from 'react-countup';
 
 function App() {
   const startDate = new Date(Date.UTC(2020, 2,11,0,0))
@@ -15,6 +16,7 @@ function App() {
   const [result, setResult] = useState(null)
   const [date, setDate] = useState(startDate)
   const [dateIndex, setDateIndex] = useState(0)
+  const [photoIndex, setPhotoIndex] = useState(0)
   const [playFarmAnimal, setPlayFarmAnimal] = useState(false)
 
 
@@ -82,13 +84,15 @@ function App() {
 
   const height = 400;
   const width = 500;
+  const counter = <CountUp delay={5} useEasing={true} duration={1000000} startOnMount={true} end={10000} start={0} onUpdate={(() => { setPhotoIndex(photoIndex+1)})} />
 
   return (
     <ZoomApp  id="ZoomApp">
       <ZoomWindow>
         <ZoomParticipant width={width} height={height} name={"Covid Gallery"}>
-        <button onClick={incrementDate}>Next Photo</button>
-          <CovidImageGallery index={dateIndex} width={width} height={height}/>
+          <button onClick={incrementDate}>Next Photo</button>
+          {/* {counter} */}
+          <CovidImageGallery index={photoIndex} width={width} height={height}/>
         </ZoomParticipant>
         <ZoomParticipant width={width} height={height} name={"Covid Deaths across USA"}>
           <button onClick={incrementDate}>Next Date</button>

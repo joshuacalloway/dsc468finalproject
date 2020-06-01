@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^7.1.2",
     "ajax": "^0.0.4",
     "axios": "^0.19.2",
+    "count-up": "^1.0.4",
     "d3": "^5.15.1",
     "d3-scale": "^3.2.1",
     "d3-scale-chromatic": "^1.5.0",
