@@ -1,5 +1,9 @@
 import * as d3 from 'd3';
-
+import React, {
+    useEffect,
+    useRef
+} from 'react';
+import styled from 'styled-components';
 const getYmax=function(data){
     let ymax = 0;
     let ymin=100000000000;
@@ -21,12 +25,16 @@ const getYmax=function(data){
     return [ymax,ymin];
 }
 
-const DrawPercentLine = (summary, canvasRef) => {
+
+const DrawPercentLine = (summary) => {
+
+    useEffect(() => {
+       
+        drawLine(summary);
+    })
 
 
-
-
-    //const canvasRef = useRef();
+    const canvasRef = useRef();
 
     const drawLine = summary => {
         let data=summary.confirmed;
@@ -253,9 +261,15 @@ const DrawPercentLine = (summary, canvasRef) => {
         }
         //d3.select(canvasRef.current).select('#stateline').remove()
     }
-    drawLine(summary);
+    return <StyledDiv ref={canvasRef}></StyledDiv>;
 
 }
-
+const StyledDiv = styled.div`    
+    background-color: None;
+    border:1px solid pink;
+    width: 100%;
+    height: 100%; 
+    
+`;
 
 export default DrawPercentLine;

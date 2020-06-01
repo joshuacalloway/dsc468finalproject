@@ -1,5 +1,9 @@
 import * as d3 from 'd3';
-
+import React, {
+    useEffect,
+    useRef
+} from 'react';
+import styled from 'styled-components';
 const getYmax=function(data){
     let ymax = 0;
     let ymin=100000000000;
@@ -22,14 +26,17 @@ const getYmax=function(data){
 }
 
 
-const DrawLine = (summary, canvasRef) => {
+const DrawLine = (summary) => {
+
+    useEffect(() => {
+       
+        draw(summary);
+    })
+    const canvasRef = useRef();
 
 
 
-
-    //const canvasRef = useRef();
-
-    const drawLine = summary => {
+    const draw = summary => {
         
         
         let data=summary.confirmed;
@@ -267,9 +274,16 @@ const DrawLine = (summary, canvasRef) => {
         }
 
     }
-    drawLine(summary);
+    return <StyledDiv ref={canvasRef}></StyledDiv>;
 
 }
+const StyledDiv = styled.div`    
+    background-color: None;
+    border:1px solid pink;
+    width: 100%;
+    height: 100%; 
+    
+`;
 
 
 export default DrawLine;
