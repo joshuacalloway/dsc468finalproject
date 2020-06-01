@@ -6,8 +6,8 @@ import * as d3 from 'd3';
 import styled from 'styled-components';
 import createStateSummary from "./updatedLine/createStateSummary";
 import DrawLine from "./updatedLine/DrawLine";
-import MapVis from "./HexagonMap/drawMap";
-import ScatterVis from "./scatterPlot/drawScatter";
+import drawMap from "./HexagonMap/drawMap";
+import drawScatter from "./scatterPlot/drawScatter";
 import createChangeSummary from "./updatedLine/createChangeSummary";
 import DrawPercentLine from "./updatedLine/DrawPercentLine";
 function Combined({ covidjson, width, height, geojson }) {
@@ -21,36 +21,36 @@ function Combined({ covidjson, width, height, geojson }) {
     const canvasRef = useRef();
 
     const Draw = function (geojson, data) {
-        let MC = MapVis(geojson, data, canvasRef);
-        MC.DrawMap();
-        let SV = ScatterVis(data);
+        drawMap(geojson, data);
+        
+        
 
+        let states=['California','Iowa','Illinois'];
 
+        
+        let totalStateSummary = createStateSummary(data, states, "positiveIncrease");
+        let tataldeathSummary = createStateSummary(data, states, "deathIncrease");
+        let totalhospitalSummary = createStateSummary(data, states, "hospitalizedIncrease");
+        let summary = {};
+        summary['confirmed'] = totalStateSummary;
+        summary['deaths'] = tataldeathSummary;
+        summary['hospitalized'] = totalhospitalSummary;
+        console.log('passed data is', data)
 
-        MC.dispatch.on("selected", function (states) {
-            let totalStateSummary = createStateSummary(data, states, "positiveIncrease");
-            let tataldeathSummary = createStateSummary(data, states, "deathIncrease");
-            let totalhospitalSummary = createStateSummary(data, states, "hospitalizedIncrease");
-            let summary = {};
-            summary['confirmed'] = totalStateSummary;
-            summary['deaths'] = tataldeathSummary;
-            summary['hospitalized'] = totalhospitalSummary;
-            console.log('passed data is', data)
+        DrawLine(summary);
 
-            DrawLine(summary, canvasRef);
+        let totalPercentSummary = createChangeSummary(data, states, "positiveIncrease");
+        let PercentdeathSummary = createChangeSummary(data, states, "deathIncrease");
+        let PercenthospitalSummary = createChangeSummary(data, states, "hospitalizedIncrease");
+        let psummary = {};
+        psummary['confirmed'] = totalPercentSummary;
+        psummary['deaths'] = PercentdeathSummary;
+        psummary['hospitalized'] = PercenthospitalSummary;
 
-            let totalPercentSummary = createChangeSummary(data, states, "positiveIncrease");
-            let PercentdeathSummary = createChangeSummary(data, states, "deathIncrease");
-            let PercenthospitalSummary = createChangeSummary(data, states, "hospitalizedIncrease");
-            let psummary = {};
-            psummary['confirmed'] = totalPercentSummary;
-            psummary['deaths'] = PercentdeathSummary;
-            psummary['hospitalized'] = PercenthospitalSummary;
+        DrawPercentLine(psummary)
 
-            DrawPercentLine(psummary, canvasRef)
-
-            SV.drawScatter(states, canvasRef);
-        });
+        drawScatter(data,states);
+        
 
 
     }
