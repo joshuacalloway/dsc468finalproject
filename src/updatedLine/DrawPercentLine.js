@@ -191,11 +191,11 @@ const DrawPercentLine = (summary, canvasRef) => {
             let ys = getYmax(data);
             let ymin = ys[1];
             let ymax = ys[0];
-            const y = d3.scaleLinear()
-            .domain([ymin, ymax])
+            let y = d3.scaleLinear()
+            .domain([0, ymax])
             .range([height, 0]);
             yAxis = d3.axisLeft(y);
-            
+            let line = d3.line().x(d => x(parseDate(d.date))).y(d => y(d.value));
             chart.select('#yaxis').remove();
             chart.append('g').attr('id', 'yaxis').call(yAxis);
             console.log('change data', data)
