@@ -11,16 +11,19 @@ import ReactPlayer from 'react-player'
 import CountUp from 'react-countup';
 import Combined from './Combined'
 import geojson from './data/us_states_geojson.json'
+import { computeSummaryForCombined } from './Combined'
+import createChangeSummary from './Combined/updatedLine/createChangeSummary';
+import { DrawLine, DrawPercentLine, DrawScatter } from "./Combined";
 
 function App() {
-  const startDate = new Date(Date.UTC(2020, 2,11,0,0))
-  const endDate = new Date(Date.UTC(2020,4,24))
+  const startDate = new Date(Date.UTC(2020, 2, 11, 0, 0))
+  const endDate = new Date(Date.UTC(2020, 4, 24))
   const [result, setResult] = useState(null)
   const [date, setDate] = useState(startDate)
   const [dateIndex, setDateIndex] = useState(0)
   const [photoIndex, setPhotoIndex] = useState(0)
   const [playFarmAnimal, setPlayFarmAnimal] = useState(false)
-
+  const [summaryForCombined, setSummaryForCombined] = useState({})
 
   const filterResultByDate = useCallback((result, date) => {
     const formatted = `${date.toISOString().split('T')[0].replace(/-/g, '')}`
@@ -31,7 +34,7 @@ function App() {
 
   const calculateTotalDeath = (filteredResults) => {
     if (filteredResults) {
-      const {death} = filteredResults.reduce((item, {death}) => ({ death: death + item.death }), { death: 0})      
+      const { death } = filteredResults.reduce((item, { death }) => ({ death: death + item.death }), { death: 0 })
       return isNaN(death) ? 0 : death
     }
     return 0
@@ -43,7 +46,7 @@ function App() {
     if (date.getTime() <= endDate.getTime()) {
       const nextDate = new Date(date.getTime() + day)
       setDate(nextDate)
-      setDateIndex(dateIndex+1)
+      setDateIndex(dateIndex + 1)
     }
   }
   const addDays = (date, days) => {
@@ -59,8 +62,12 @@ function App() {
   })
 
   useEffect(() => {
+    result && setSummaryForCombined(computeSummaryForCombined(geojson, result))
+  }, [result])
+
+  useEffect(() => {
     fetchDailyCovidData(noop, setResult)
-  },[])
+  }, [])
 
   const calculateDeathArr = (result, startDate, endDate) => {
     const filterResultByDate2 = (result, date) => {
@@ -77,7 +84,7 @@ function App() {
     while (iter.getTime() <= endDate.getTime()) {
       const filtered = filterResultByDate2(result, iter);
       const total = calculateTotalDeath(filtered)
-      deathArr = [...deathArr, {Date: formatDate(iter), TotalDeath: total}]
+      deathArr = [...deathArr, { Date: formatDate(iter), TotalDeath: total }]
       iter = addDays(iter, 1)
     }
     // console.log("useEffect, deathArr is ", deathArr)
@@ -86,15 +93,15 @@ function App() {
 
   const height = 400;
   const width = 500;
-  const counter = <CountUp delay={5} useEasing={true} duration={1000000} startOnMount={true} end={10000} start={0} onUpdate={(() => { setPhotoIndex(photoIndex+1)})} />
+  const counter = <CountUp delay={5} useEasing={true} duration={1000000} startOnMount={true} end={10000} start={0} onUpdate={(() => { setPhotoIndex(photoIndex + 1) })} />
 
   return (
-    <ZoomApp  id="ZoomApp">
+    <ZoomApp id="ZoomApp">
       <ZoomWindow>
         <ZoomParticipant width={width} height={height} name={"Covid Gallery"}>
           <button onClick={incrementDate}>Next Photo</button>
           {/* {counter} */}
-          <CovidImageGallery index={photoIndex} width={width} height={height}/>
+          <CovidImageGallery index={photoIndex} width={width} height={height} />
         </ZoomParticipant>
         <ZoomParticipant width={width} height={height} name={"Covid Deaths across USA"}>
           <button onClick={incrementDate}>Next Date</button>
@@ -106,34 +113,24 @@ function App() {
         </ZoomParticipant>
 
         <ZoomParticipant width={width} height={height} name={"Covid Deaths By Date"}>
-        <button onClick={incrementDate}>Next Date</button>
+          <button onClick={incrementDate}>Next Date</button>
           <button onClick={resetDate}>Reset Date</button>
           <CovidDeathLineGraph index={dateIndex} date={date} data={calculateDeathArr(result, startDate, endDate).map(x => x.TotalDeath)} width={width} marginLeft={20} marginRight={60} marginTop={20} height={height} />
         </ZoomParticipant>
         <ZoomParticipant width={width} height={height} name={"Covid Decision Support System"}>
-          <Combined  width={width} height={height} geojson={geojson} covidjson={result}></Combined>
-      </ZoomParticipant>
+          <Combined width={width} height={height} geojson={geojson} covidjson={result} summary={summaryForCombined}></Combined>
+        </ZoomParticipant>
+        <ZoomParticipant width={width} height={height} name={"Covid Line Graph"}>
+          <DrawLine width={width} height={height} summary={summaryForCombined}></DrawLine>
+        </ZoomParticipant>
+        <ZoomParticipant width={width} height={height} name={"Covid Every day change"}>
+          <DrawPercentLine width={width} height={height} summary={summaryForCombined}></DrawPercentLine>
+        </ZoomParticipant>
+        <ZoomParticipant width={width} height={height} name={"Covid Hospitalization Rate"}>
+          <DrawScatter width={width} height={height} summary={summaryForCombined}></DrawScatter>
+        </ZoomParticipant>
       </ZoomWindow>
-
     </ZoomApp>
-
-
-
-    // <StyledVerticalDiv id="theApp" className="App">
-    //     {/* <DeathCounter totalDeath={calculateTotalDeath(filterResultByDate(result, date))} date={date} /> */}
-    //     <button onClick={incrementDate}>Next Date</button>
-    //     <button onClick={resetDate}>Reset Date</button>
-    //     <OverlayContainer width={800} height={height}>
-    //       <FirstLayer>
-    //       <CovidImageGallery className="firstLayer" index={dateIndex} width={800} height={height}/>
-    //       </FirstLayer>
-    //       <SecondLayer>
-    //       <USA className="secondLayer" width={800} height={height} tooltipsEnabled={true} result={filteredResults} onClick={() => alert('clicked USA')} />
-    //       </SecondLayer>
-    //     </OverlayContainer>
-
-    //     <CovidDeathLineGraph index={dateIndex} date={date} data={calculateDeathArr(result, startDate, endDate).map(x => x.TotalDeath)} width={800} marginLeft={20} marginRight={60} marginTop={20} height={400} />
-    //   </StyledVerticalDiv>
   );
 }
 const ZoomApp = styled.div`

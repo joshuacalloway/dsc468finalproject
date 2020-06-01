@@ -4,6 +4,8 @@ import React, {
     useRef
 } from 'react';
 import styled from 'styled-components';
+
+
 const getYmax=function(data){
     let ymax = 0;
     let ymin=100000000000;
@@ -26,22 +28,17 @@ const getYmax=function(data){
 }
 
 
-const DrawLine = (summary) => {
+const DrawLine = ({summary, width, height}) => {
 
     useEffect(() => {
-       
-        draw(summary);
-    })
+        summary && summary.confirmed && draw(summary, width, height);
+    }, [height, summary, width])
     const canvasRef = useRef();
 
-
-
-    const draw = summary => {
-        
-        
+    const draw = (summary, widthParam, heightParam) => {
         let data=summary.confirmed;
-        let canvas_width = 800;
-        let canvas_height = 400;
+        let canvas_width = widthParam;
+        let canvas_height = heightParam;
         d3.select(canvasRef.current).select('#lineButton').remove();
         d3.select(canvasRef.current).append('select')
         .attr('id', 'lineButton')
@@ -272,10 +269,8 @@ const DrawLine = (summary) => {
                 .html(d => d.state + ': ' + d.values[i].value);
 
         }
-
     }
     return <StyledDiv ref={canvasRef}></StyledDiv>;
-
 }
 const StyledDiv = styled.div`    
     background-color: None;

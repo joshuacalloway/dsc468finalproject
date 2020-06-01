@@ -7,18 +7,18 @@ import React, {
 } from 'react';
 import styled from 'styled-components';
 
+const states=['California','Iowa','Illinois'];
 
-const DrawScatter = function (states,data) {
+const DrawScatter = ({data, width, height}) => {
 
     useEffect(() => {
-       
-        draw(states,data);
-    })
+        data && draw(states,data, width, height);
+    },[data, height, width])
 
 
     const canvasRef = useRef();
 
-    function draw(states, data) {
+    function draw(states, data, widthParam, heightParam) {
         let rates = compute_rate(states, data)
         console.log('rates is ', rates)
         let margin = {
@@ -50,8 +50,8 @@ const DrawScatter = function (states,data) {
         }
         console.log('xmax is ', xmax)
         d3.select(canvasRef.current).select('#scatterplot').remove();
-        let canvas_width = 960;
-        let canvas_height = 500;
+        let canvas_width = widthParam;
+        let canvas_height = heightParam;
         let svg = d3.select(canvasRef.current).append('svg').attr('id', 'scatterplot')
         svg.attr("width", canvas_width).attr("height", canvas_height);
 
@@ -165,44 +165,6 @@ const DrawScatter = function (states,data) {
                     .duration(100)
                     .selectAll(".text").remove();
             });
-
-
-
-
-
-
-
-
-        // .on('click', function (d) {
-        //         d3.select(this).select('circle')
-        //             .attr('fill', 'red');
-        //         let notexist = true;
-        //         let newdata = [];
-
-        //         for (let i = 0; i < newScatter.data.length; i++) {
-        //             let point = newScatter.data[i];
-        //             if (point.id !== d.id) {
-        //                 newdata.push(point);
-        //             } else {
-        //                 notexist = false;
-        //                 d3.select(this).select('circle')
-        //                     .attr('fill', 'green');
-
-        //             }
-        //         }
-        //         if (notexist) {
-        //             newdata.push(d);
-
-        //         }
-
-        //         newScatter.data = newdata;
-        //         newScatter.dispatch.call("selected", {}, newScatter.data);
-
-        //     }
-
-
-        // )
-
     }
     return <StyledDiv ref={canvasRef}></StyledDiv>;
 

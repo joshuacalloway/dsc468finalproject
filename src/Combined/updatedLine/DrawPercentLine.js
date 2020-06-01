@@ -26,20 +26,19 @@ const getYmax=function(data){
 }
 
 
-const DrawPercentLine = (summary) => {
+const DrawPercentLine = ({summary, width, height}) => {
 
     useEffect(() => {
-       
-        drawLine(summary);
+       summary && summary.confirmed && drawLine(summary, width, height);
     })
 
 
     const canvasRef = useRef();
 
-    const drawLine = summary => {
+    const drawLine = (summary, widthParam, heightParam) => {
         let data=summary.confirmed;
-        let canvas_width = 800;
-        let canvas_height = 400;
+        let canvas_width = widthParam;
+        let canvas_height = heightParam;
         d3.select(canvasRef.current).select('#percentline').remove()
         d3.select(canvasRef.current).select('#PercentButton').remove()
         d3.select(canvasRef.current).append('select')

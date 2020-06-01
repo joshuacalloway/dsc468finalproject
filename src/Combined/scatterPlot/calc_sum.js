@@ -1,5 +1,5 @@
-import stateHash from '../../Data/states_hash.json';
-const calc_sum=function(covidjson,status){
+import stateHash from '../../data/states_hash.json';
+const calc_sum = (covidjson,status) =>{
     let summary = {};
     for (let i = 0; i < covidjson.length; i++) {
         let data_point = covidjson[i];
