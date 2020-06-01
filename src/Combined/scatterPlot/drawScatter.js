@@ -6,7 +6,9 @@ import React, {
     useRef
 } from 'react';
 import styled from 'styled-components';
-const drawScatter = function (states,data) {
+
+
+const DrawScatter = function (states,data) {
 
     useEffect(() => {
        
@@ -213,4 +215,4 @@ const StyledDiv = styled.div`
     
 `;
 
-export default drawScatter;
+export default DrawScatter;
