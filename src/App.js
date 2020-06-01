@@ -21,7 +21,7 @@ function App() {
         
 
 
-        <h1>This is Map , Chart and scatter plot</h1>
+        <h1>Covid Decision Support</h1>
         <Combined geojson={geojson} ></Combined>
 
         
