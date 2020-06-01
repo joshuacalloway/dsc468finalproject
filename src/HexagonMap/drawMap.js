@@ -159,7 +159,7 @@ let MapVis = function (geojson, covidjson, canvasRef) {
                 .attr("text-anchor", "middle")
                 .attr("alignment-baseline", "central")
                 .style("font-size", 11)
-                .style("fill", "white")
+                .style("fill", "black")
                 .on("mouseover", showTooltip)
                 .on("mousemove", moveTooltip)
                 .on("mouseleave", hideTooltip)

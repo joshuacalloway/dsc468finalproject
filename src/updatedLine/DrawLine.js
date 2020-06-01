@@ -39,7 +39,7 @@ const DrawLine = (summary, canvasRef) => {
         d3.select(canvasRef.current).append('select')
         .attr('id', 'lineButton')
         .style('position','absolute')
-        .style("left", "30px")
+        .style("left", "100px")
         .style("top", "500px");
         let allGroup = ["confirmed", "deaths", "hospitalized"];
         d3.select("#lineButton")

@@ -56,7 +56,7 @@ let ScatterVis = function (covidjson) {
 
             let z = d3.scaleSqrt()
                 .domain([0, 20000])
-                .range([0, 8]);
+                .range([2, 8]);
             let color = d3.scaleOrdinal(d3.schemeCategory10);
             let xAxis=d3.axisBottom(x).tickFormat(formatPercent)
             g.append("g")

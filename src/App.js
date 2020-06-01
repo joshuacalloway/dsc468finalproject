@@ -1,14 +1,11 @@
 import React from 'react';
-import Logo from './logo/Logo.js';
 import './App.css';
 
-import CallingSageMaker from './CallingSageMaker'
 
 
 import covidjson from './Data/confirmed.json';
 
 
-import createDateSummary from './LineChart/createDateSummary'
 import deathjson from './Data/deaths.json';
 import recoveredjson from './Data/recovered.json';
 
@@ -51,21 +48,14 @@ function App() {
 
         
 
-        <h1>This is example of calling SageMaker</h1>
-        <CallingSageMaker />
-        {/* <img src={logo} className="App-logo" alt="logo" />  */}
-        <h1> this is a logo</h1>
-        <Logo />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+        
         <a
           className="App-link"
           href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+         
         </a>
       </header>
     </div>
