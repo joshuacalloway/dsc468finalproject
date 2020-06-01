@@ -6,8 +6,8 @@ import * as d3 from 'd3';
 import styled from 'styled-components';
 import createStateSummary from "./updatedLine/createStateSummary";
 import DrawLine from "./updatedLine/DrawLine";
-import drawMap from "./HexagonMap/drawMap";
-import drawScatter from "./scatterPlot/drawScatter";
+import DrawMap from "./HexagonMap/drawMap";
+import DrawScatter from "./scatterPlot/drawScatter";
 import createChangeSummary from "./updatedLine/createChangeSummary";
 import DrawPercentLine from "./updatedLine/DrawPercentLine";
 function Combined({ covidjson, width, height, geojson }) {
@@ -21,7 +21,7 @@ function Combined({ covidjson, width, height, geojson }) {
     const canvasRef = useRef();
 
     const Draw = function (geojson, data) {
-        drawMap(geojson, data);
+        DrawMap(geojson, data);
         
         
 
@@ -49,7 +49,7 @@ function Combined({ covidjson, width, height, geojson }) {
 
         DrawPercentLine(psummary)
 
-        drawScatter(data,states);
+        DrawScatter(data,states);
         
 
 

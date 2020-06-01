@@ -5,7 +5,7 @@ import React, {
     useRef
 } from 'react';
 import styled from 'styled-components';
-const ｄrawMap=function(geojson,covidjson){
+const DrawMap=function(geojson,covidjson){
     //call component 
     useEffect(() => {
        
@@ -233,4 +233,4 @@ const StyledDiv = styled.div`
     
 `;
 
-export default drawMap;
+export default DrawMap;

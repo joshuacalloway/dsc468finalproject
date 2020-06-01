@@ -1,4 +1,4 @@
-import stateHash from '../../data/states_hash.json';
+import stateHash from '../../Data/states_hash.json';
 const calc_sum=function(covidjson,status){
     let summary = {};
     for (let i = 0; i < covidjson.length; i++) {
