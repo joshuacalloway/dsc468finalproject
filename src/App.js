@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import USA from './USA'
 import { fetchDailyCovidData } from './data'
 import CovidDeathLineGraph from './CovidDeathLineGraph'
@@ -8,12 +8,8 @@ import noop from 'lodash'
 import ZoomWindow from './ZoomWindow'
 import ZoomParticipant from './ZoomParticipant';
 import ReactPlayer from 'react-player'
-import CountUp from 'react-countup';
-import Combined from './Combined'
-import geojson from './data/us_states_geojson.json'
-import { computeSummaryForCombined } from './Combined'
-import { DrawLine, DrawPercentLine, DrawScatter } from "./Combined";
 import FloatBarChart from './FloatBarChart'
+import Peters from './peters'
 
 function App() {
   const startDate = new Date(Date.UTC(2020, 2, 11, 0, 0))
@@ -25,8 +21,7 @@ function App() {
   const [dateIndex, setDateIndex] = useState(0)
   const [photoIndex, setPhotoIndex] = useState(0)
   const [playFarmAnimal, setPlayFarmAnimal] = useState(false)
-  const [summaryForCombined, setSummaryForCombined] = useState({})
-
+  const [clickedPeters, setClickedPeters] = useState(false)
   const filterResultByDate = useCallback((result, date) => {
     const formatted = `${date.toISOString().split('T')[0].replace(/-/g, '')}`
     return result && result.filter(item => item.date == formatted)
@@ -51,6 +46,11 @@ function App() {
       setDateIndex(dateIndex + 1)
     }
   }
+
+  const incrementPhotoIndex = e => {
+    e.stopPropagation()
+    setPhotoIndex(photoIndex+1)
+  }
   const addDays = (date, days) => {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
@@ -62,10 +62,6 @@ function App() {
     setDate(startDate)
     setDateIndex(0)
   })
-
-  useEffect(() => {
-    result && setSummaryForCombined(computeSummaryForCombined(geojson, result))
-  }, [result])
 
   useEffect(() => {
     fetchDailyCovidData(noop, setResult)
@@ -96,55 +92,45 @@ function App() {
   const width = 500;
 
   const onStateClicked = (stateCode) => {
-    console.log("onStateClicked, stateCode is ", stateCode)
-    setState(stateCode) 
+    setState(stateCode)
   }
   return (
-    <ZoomApp id="ZoomApp">
-      <ZoomWindow>
-        <ZoomParticipant width={width} height={height} name={"Covid Death Bar Chart"}>
-          <text> State: {state}</text>
-          {/* <button onClick={() => setState('TX')}>Texas</button>
-          <button onClick={() => setState('CA')}>California</button> */}
-          <FloatBarChart width={width} height={height} state={state} dailyjson={result}/>
-        </ZoomParticipant>
-    
-        <ZoomParticipant width={width} height={height} name={"Covid Gallery"}>
-          <button onClick={incrementDate}>Next Photo</button>
-          <CovidImageGallery index={photoIndex} width={width} height={height} />
-        </ZoomParticipant>
-        <ZoomParticipant width={width} height={height} name={"Covid Deaths across USA"}>
-          <button onClick={incrementDate}>Next Date</button>
-          <button onClick={resetDate}>Reset Date</button>
-          <USA onStateClicked={onStateClicked} width={width} height={height} tooltipsEnabled={true} result={filteredResults} />
-        </ZoomParticipant> 
-        <ZoomParticipant width={width} height={height} name={"Corky"} onEnterMeeting={() => setPlayFarmAnimal(true)} onExitMeeting={() => setPlayFarmAnimal(false)} >
-          <ReactPlayer width={width} height={height} url='https://www.youtube.com/watch?v=4EvwQO8VOMI' playing={playFarmAnimal} />
-        </ZoomParticipant>
+    clickedPeters ? <Peters /> :
+      (
+        <ZoomApp id="ZoomApp">
+          <ZoomWindow>
+            <ZoomParticipant width={width} height={height} name={"Covid Death Bar Chart"}>
+              <text> State: {state}</text>
+              <FloatBarChart width={width} height={height} state={state} dailyjson={result} />
+            </ZoomParticipant>
 
-        <ZoomParticipant width={width} height={height} name={"Covid Deaths By Date"}>
-          <button onClick={incrementDate}>Next Date</button>
-          <button onClick={resetDate}>Reset Date</button>
-          <CovidDeathLineGraph index={dateIndex} date={date} data={calculateDeathArr(result, startDate, endDate).map(x => x.TotalDeath)} width={width} marginLeft={20} marginRight={60} marginTop={20} height={height} />
-        </ZoomParticipant>
-        <ZoomParticipant width={width} height={height} name={"Covid Decision Support System"}>
-          <Combined width={width} height={height} geojson={geojson} covidjson={result} summary={summaryForCombined}></Combined>
-        </ZoomParticipant>
-        <ZoomParticipant width={width} height={height} name={"Covid Line Graph"}>
-          <DrawLine width={width} height={height} summary={summaryForCombined}></DrawLine>
-        </ZoomParticipant>
-        <ZoomParticipant width={width} height={height} name={"Covid Every day change"}>
-          <DrawPercentLine width={width} height={height} summary={summaryForCombined}></DrawPercentLine>
-        </ZoomParticipant>
-        <ZoomParticipant width={width} height={height} name={"Covid Hospitalization Rate"}>
-          <DrawScatter width={width} height={height} summary={summaryForCombined}></DrawScatter>
-        </ZoomParticipant>
-      </ZoomWindow>
-    </ZoomApp>
+            <ZoomParticipant width={width} height={height} name={"Covid Gallery"}>
+              <button onClick={incrementPhotoIndex}>Next Photo</button>
+              <CovidImageGallery index={photoIndex} width={width} height={height} />
+            </ZoomParticipant>
+            <ZoomParticipant width={width} height={height} name={"Covid Deaths across USA"}>
+              <button onClick={incrementDate}>Next Date</button>
+              <button onClick={resetDate}>Reset Date</button>
+              <USA onStateClicked={onStateClicked} width={width} height={height} tooltipsEnabled={true} result={filteredResults} />
+            </ZoomParticipant>
+            <ZoomParticipant width={width} height={height} name={"Corky"} onEnterMeeting={() => setPlayFarmAnimal(true)} onExitMeeting={() => setPlayFarmAnimal(false)} >
+              <ReactPlayer width={width} height={height} url='https://www.youtube.com/watch?v=4EvwQO8VOMI' playing={playFarmAnimal} />
+            </ZoomParticipant>
+
+            <ZoomParticipant width={width} height={height} name={"Covid Deaths By Date"}>
+              <button onClick={incrementDate}>Next Date</button>
+              <button onClick={resetDate}>Reset Date</button>
+              <CovidDeathLineGraph index={dateIndex} date={date} data={calculateDeathArr(result, startDate, endDate).map(x => x.TotalDeath)} width={width} marginLeft={20} marginRight={60} marginTop={20} height={height} />
+            </ZoomParticipant>
+          </ZoomWindow>
+          <button onClick={() => {setClickedPeters(true)}}>Talk to Peter</button>
+        </ZoomApp>
+      )
   );
 }
 const ZoomApp = styled.div`
-
+display: flex;
+flex-direction: row;
 `
 
 export default App;
