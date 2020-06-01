@@ -4,9 +4,10 @@ import { fetchDailyCovidData } from './data'
 import CovidDeathLineGraph from './CovidDeathLineGraph'
 import CovidImageGallery from './CovidImageGallery'
 import styled from 'styled-components'
-import { TwitterTimelineEmbed } from 'react-twitter-embed';
-import DeathCounter from './DeathCounter'
 import noop from 'lodash'
+import ZoomWindow from './ZoomWindow'
+import ZoomParticipant from './ZoomParticipant';
+import ReactPlayer from 'react-player'
 
 function App() {
   const startDate = new Date(Date.UTC(2020, 2,11,0,0))
@@ -14,8 +15,8 @@ function App() {
   const [result, setResult] = useState(null)
   const [date, setDate] = useState(startDate)
   const [dateIndex, setDateIndex] = useState(0)
-  const [isActive, setIsActive] = useState(true);
-  
+  const [playFarmAnimal, setPlayFarmAnimal] = useState(false)
+
 
   const filterResultByDate = useCallback((result, date) => {
     const formatted = `${date.toISOString().split('T')[0].replace(/-/g, '')}`
@@ -32,7 +33,8 @@ function App() {
     return 0
   };
 
-  const incrementDate = () => {
+  const incrementDate = e => {
+    e.stopPropagation();
     var day = 60 * 60 * 24 * 1000;
     if (date.getTime() <= endDate.getTime()) {
       const nextDate = new Date(date.getTime() + day)
@@ -46,8 +48,8 @@ function App() {
     return result;
   }
 
-  const resetDate = useCallback(() => {
-    setIsActive(true)
+  const resetDate = useCallback(e => {
+    e.stopPropagation();
     setDate(startDate)
     setDateIndex(0)
   })
@@ -78,75 +80,55 @@ function App() {
     return deathArr;
   }
 
-  const height = 450;
+  const height = 400;
+  const width = 500;
 
   return (
-    <StyledVerticalDiv id="theApp" className="App">
-        {/* <DeathCounter totalDeath={calculateTotalDeath(filterResultByDate(result, date))} date={date} /> */}
-        <button onClick={incrementDate}>Next Date</button>
-        <button onClick={resetDate}>Reset Date</button>
-        <OverlayContainer width={800} height={height}>
-          <FirstLayer>
-          <CovidImageGallery className="firstLayer" index={dateIndex} width={800} height={height}/>
-          </FirstLayer>
-          <SecondLayer>
-          <USA className="secondLayer" width={800} height={height} tooltipsEnabled={true} result={filteredResults} onClick={() => alert('clicked USA')} />
-          </SecondLayer>
-        </OverlayContainer>
+    <ZoomApp  id="ZoomApp">
+      <ZoomWindow>
+        <ZoomParticipant width={width} height={height} name={"Covid Gallery"}>
+        <button onClick={incrementDate}>Next Photo</button>
+          <CovidImageGallery index={dateIndex} width={width} height={height}/>
+        </ZoomParticipant>
+        <ZoomParticipant width={width} height={height} name={"Covid Deaths across USA"}>
+          <button onClick={incrementDate}>Next Date</button>
+          <button onClick={resetDate}>Reset Date</button>
+          <USA width={width} height={height} tooltipsEnabled={true} result={filteredResults} />
+        </ZoomParticipant>
+        <ZoomParticipant width={width} height={height} name={"Farm animals"} onEnterMeeting={() => setPlayFarmAnimal(true)} onExitMeeting={() => setPlayFarmAnimal(false)} >
+          <ReactPlayer width={width} height={height} url='https://www.youtube.com/watch?v=PwazdGn6ldc' playing={playFarmAnimal} />
+        </ZoomParticipant>
 
-        <CovidDeathLineGraph index={dateIndex} date={date} data={calculateDeathArr(result, startDate, endDate).map(x => x.TotalDeath)} width={800} marginLeft={20} marginRight={60} marginTop={20} height={400} />
-      </StyledVerticalDiv>
+        <ZoomParticipant width={width} height={height} name={"Covid Deaths By Date"}>
+        <button onClick={incrementDate}>Next Date</button>
+          <button onClick={resetDate}>Reset Date</button>
+          <CovidDeathLineGraph index={dateIndex} date={date} data={calculateDeathArr(result, startDate, endDate).map(x => x.TotalDeath)} width={width} marginLeft={20} marginRight={60} marginTop={20} height={height} />
+        </ZoomParticipant>
+      </ZoomWindow>
+
+    </ZoomApp>
+
+
+
+    // <StyledVerticalDiv id="theApp" className="App">
+    //     {/* <DeathCounter totalDeath={calculateTotalDeath(filterResultByDate(result, date))} date={date} /> */}
+    //     <button onClick={incrementDate}>Next Date</button>
+    //     <button onClick={resetDate}>Reset Date</button>
+    //     <OverlayContainer width={800} height={height}>
+    //       <FirstLayer>
+    //       <CovidImageGallery className="firstLayer" index={dateIndex} width={800} height={height}/>
+    //       </FirstLayer>
+    //       <SecondLayer>
+    //       <USA className="secondLayer" width={800} height={height} tooltipsEnabled={true} result={filteredResults} onClick={() => alert('clicked USA')} />
+    //       </SecondLayer>
+    //     </OverlayContainer>
+
+    //     <CovidDeathLineGraph index={dateIndex} date={date} data={calculateDeathArr(result, startDate, endDate).map(x => x.TotalDeath)} width={800} marginLeft={20} marginRight={60} marginTop={20} height={400} />
+    //   </StyledVerticalDiv>
   );
 }
-const OverlayContainer = styled.div`
-  width:  ${({ width }) => width}px;
-  height:  ${({ height }) => height}px;
-  margin-bottom:5rem;
-  position: relative;
-  .firstLayer {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 50px;
-    left: 0;
-  }
-  .secondLayer {
-    z-index: 10;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-`
+const ZoomApp = styled.div`
 
-const FirstLayer = styled.div`
-width: 100%;
-height: 100%;
-position: absolute;
-top: 0;
-left: 0;
 `
-const SecondLayer = styled.div`
-z-index: 10;
-width: 100%;
-height: 100%;
-position: absolute;
-top: 0;
-left: 0;
-`
-
-const StyledVerticalDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-const StyledHorizontalDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: left;
-  align-items: flex-start;
-`;
 
 export default App;

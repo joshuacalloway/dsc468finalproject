@@ -58,14 +58,14 @@ const CovidDeathLineGraph = ({
 
     return (
         <>
-            <StyledSvg ref={svgRef} width={`${width}px`} height={`${height}px`}>
+            <StyledSvg ref={svgRef} width={'100%'} height={'100%'}>
                 <GridLines yfunction={y} width={width} marginRight={marginRight} marginLeft={marginLeft} marginTop={marginTop} height={height}/>
                 <StyledG id="StyledG" width={width}>
                     <StaticPath1 id="path1" className="line" stroke={bloodRed} ref={firstPartPathRef} />
                     <StaticPath1Fill id="path1" className="line" stroke={bloodRed} ref={firstPartPathFillRef} />
                     <StaticPath2 id="path2" className="line" stroke={'#D3D3D3'} ref={secondPartPathRef} />
                 </StyledG>
-                <RightMargin yfunction={y} width={width} marginRight={marginRight} currentDeathNumbers={currentDeathNumbers} currentDeathNumbersYScaled={currentDeathNumbersYScaled}/>
+                <RightMargin yfunction={y} width={width} height={height} marginRight={marginRight} currentDeathNumbers={currentDeathNumbers} currentDeathNumbersYScaled={currentDeathNumbersYScaled}/>
                 <MovingDate width={width} marginRight={marginRight} x={currentXScaled} y={currentDeathNumbersYScaled} dateFormatted={dateFormatted} />
             </StyledSvg>
         </>
@@ -97,6 +97,4 @@ const StaticPath2 = styled.path`
     stroke-width:2;
 `
 const StyledSvg = styled.svg`
-    margin: 1rem;
-    border:1px solid blue; 
 `
