@@ -58,7 +58,7 @@ const createChangeSummary = function (data,states,type) {
                 let prev_date=dates[i-1];
                 let prev_value=values[prev_date];
                 if(prev_value==0){temp['value']=0;}
-                else{temp['value']=(value-prev_value)/prev_value;}
+                else{temp['value']=value-prev_value;}
                 
             }
             temp['date']=date;

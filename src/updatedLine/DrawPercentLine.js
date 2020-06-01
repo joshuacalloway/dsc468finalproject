@@ -108,7 +108,7 @@ const DrawPercentLine = (summary, canvasRef) => {
 
         // Add the axes and a title
         const xAxis = d3.axisBottom(x).ticks(6);
-        let yAxis = d3.axisLeft(y).tickFormat(formatPercent);
+        let yAxis = d3.axisLeft(y);
         chart.append('g').attr('id','yaxis').call(yAxis);
         chart.append('g').attr('transform', 'translate(0,' + height + ')').call(xAxis);
         //chart.append('text').html('Cases Over Time').attr('x', 200);
@@ -194,7 +194,7 @@ const DrawPercentLine = (summary, canvasRef) => {
             const y = d3.scaleLinear()
             .domain([ymin, ymax])
             .range([height, 0]);
-            yAxis = d3.axisLeft(y).tickFormat(formatPercent);
+            yAxis = d3.axisLeft(y);
             
             chart.select('#yaxis').remove();
             chart.append('g').attr('id', 'yaxis').call(yAxis);
@@ -248,7 +248,7 @@ const DrawPercentLine = (summary, canvasRef) => {
                 .data(data).enter()
                 .append('div')
                 .style('color', (d, i) => color(i))
-                .html(d => d.state + ': ' + formatPercent(d.values[i].value));
+                .html(d => d.state + ': ' + d.values[i].value);
 
         }
         //d3.select(canvasRef.current).select('#stateline').remove()
