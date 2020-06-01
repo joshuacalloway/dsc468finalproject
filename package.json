@@ -29,6 +29,7 @@
     "react-photo-gallery": "^8.0.0",
     "react-player": "^2.1.1",
     "react-scripts": "3.4.1",
+    "react-select": "^3.1.0",
     "react-tooltip": "^4.2.6",
     "react-twitter-embed": "^3.0.3",
     "sparkline-svg": "^1.0.4",
