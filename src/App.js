@@ -102,9 +102,10 @@ function App() {
   return (
     <ZoomApp id="ZoomApp">
       <ZoomWindow>
-       <ZoomParticipant width={width} height={height} name={"Covid Death Bar Chart"}>
-          <button onClick={() => setState('TX')}>Texas</button>
-          <button onClick={() => setState('CA')}>California</button>
+        <ZoomParticipant width={width} height={height} name={"Covid Death Bar Chart"}>
+          <text> State: {state}</text>
+          {/* <button onClick={() => setState('TX')}>Texas</button>
+          <button onClick={() => setState('CA')}>California</button> */}
           <FloatBarChart width={width} height={height} state={state} dailyjson={result}/>
         </ZoomParticipant>
     

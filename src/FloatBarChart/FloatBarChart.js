@@ -12,9 +12,9 @@ const FloatBarChart = ({width,height, state, dailyjson}) => {
         dailyjson && setData(dailyjson.filter(item => item.state == state).map((item) => item)) 
     }, [dailyjson, state])
     
-    const max = height
-    var x = d3.scaleLinear().domain([0, 87]).range([0, 600])
-    var y = d3.scaleLinear().domain([0, max]).range([0, 600]);
+    const max = 1000
+    var x = d3.scaleLinear().domain([0, 87]).range([0, height])
+    var y = d3.scaleLinear().domain([0, max]).range([0, height]);
     return (
             <StyleSvg width={width} height={height}>
             <g>
