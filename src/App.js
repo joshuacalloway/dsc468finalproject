@@ -3,11 +3,7 @@ import './App.css';
 
 
 
-import covidjson from './Data/confirmed.json';
 
-
-import deathjson from './Data/deaths.json';
-import recoveredjson from './Data/recovered.json';
 
 import Combined from './combined';
 
@@ -26,7 +22,7 @@ function App() {
 
 
         <h1>This is Map , Chart and scatter plot</h1>
-        <Combined geojson={geojson} covidjson={covidjson} deaths={deathjson} recovered={recoveredjson}></Combined>
+        <Combined geojson={geojson} ></Combined>
 
         
 
